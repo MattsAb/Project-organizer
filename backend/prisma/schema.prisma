@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProjectRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum AssignmentStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model User {
+  id            Int                @id @default(autoincrement())
+  username      String             @unique
+  email         String             @unique
+  password      String
+  createdAt     DateTime           @default(now())
+
+  // Relations
+  projectsOwned Project[]          @relation("ProjectOwner")
+  memberships   ProjectMember[]
+  assignments   AssignmentMember[]
+  createdTasks  Assignment[]       @relation("AssignmentCreator")
+}
+
+model Project {
+  id          Int              @id @default(autoincrement())
+  title        String
+  description String?
+  createdAt   DateTime         @default(now())
+
+  ownerId     Int
+  owner       User             @relation("ProjectOwner", fields: [ownerId], references: [id])
+
+  members     ProjectMember[]
+  assignments Assignment[]
+}
+
+
+model ProjectMember {
+  id         Int         @id @default(autoincrement())
+
+  userId     Int
+  projectId  Int
+  role       ProjectRole @default(MEMBER)
+  joinedAt   DateTime    @default(now())
+
+  user       User        @relation(fields: [userId], references: [id])
+  project    Project     @relation(fields: [projectId], references: [id])
+
+  @@unique([userId, projectId])
+}
+
+
+model Assignment {
+  id          Int               @id @default(autoincrement())
+  title       String
+  description String?
+  status      AssignmentStatus  @default(TODO)
+  dueDate     DateTime?
+  createdAt   DateTime          @default(now())
+
+  projectId   Int
+  project     Project           @relation(fields: [projectId], references: [id])
+
+  createdById Int
+  createdBy   User              @relation("AssignmentCreator", fields: [createdById], references: [id])
+
+  assignees   AssignmentMember[]
+}
+
+
+model AssignmentMember {
+  id            Int        @id @default(autoincrement())
+
+  userId        Int
+  assignmentId  Int
+
+  assignedAt    DateTime   @default(now())
+
+  user          User       @relation(fields: [userId], references: [id])
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+
+  @@unique([userId, assignmentId])
+}
