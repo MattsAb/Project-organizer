@@ -26,8 +26,8 @@ export default function Authentication () {
                     });
 
                     await login(response.data.token);
-
                     navigate('/');
+                    window.location.reload();
             } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
                     const backendMessage = err.response?.data?.message ?? err.message;

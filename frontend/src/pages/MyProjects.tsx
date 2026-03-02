@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import MyProject from "../components/MyProjectComponent";
-import type { Project } from "../types/projectTypes";
 import axios from "axios";
 import { api } from "../api";
+import type { MyProjectType } from "../types/projectTypes";
 
-type MyProjectType = Project & {
-  _count: {
-    members: number
-    assignments: number
-  }
-}
 
 export default function MyProjects () {
 
     const [myProjects, setMyProjects] = useState<MyProjectType[]>([])
+    const [memberProjects, setMemberProjects] = useState<MyProjectType[]>([])
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getUserProjects = async () => {
             try {
                 const response = await api.get(`/userprojects`);
-                setMyProjects(response.data);
+                setMyProjects(response.data.myProjects);
+                setMemberProjects(response.data.memberProjects);
             } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
@@ -45,11 +41,26 @@ export default function MyProjects () {
                myProjects.map((project) => (
                 <MyProject
                     key={project.id}
-                    id={project.id}
-                    title={project.title}
-                    description={project.description}
-                    numberOfAssignments={project._count.assignments}
-                    numberOfMembers={project._count.members}
+                    canDelete={true}
+                    projectInfo={project}
+                />
+                ))
+                )}
+            </div>
+
+            <div className="flex items-center w-screen justify-center">
+                <div className="h-px bg-rose-400 dark:bg-rose-800 w-1/2"></div>
+            </div>
+
+            <p className="font-bold text-3xl mt-5"> Projects you are a part of</p>
+
+            <div className="w-1/2 flex flex-col gap-5 mb-10">
+                {memberProjects.length > 0 && (
+               memberProjects.map((project) => (
+                <MyProject
+                    key={project.id}
+                    canDelete={false}
+                    projectInfo={project}
                 />
                 ))
                 )}

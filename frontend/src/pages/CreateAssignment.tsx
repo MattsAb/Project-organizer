@@ -52,7 +52,7 @@ export default function CreateAssignment () {
 
        try {
           const response = await api.get(`members/${id}`)
-          setMembers(response.data)
+          setMembers(response.data.members)
           
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {

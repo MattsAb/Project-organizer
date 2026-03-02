@@ -8,6 +8,11 @@ type AssignmentProps = {
 
 export default function Assignment ({assignment, setDetails}: AssignmentProps) {
 
+    const date = new Date(assignment.dueDate)
+
+    const formattedDate = date.toISOString().split("T")[0]
+    //const formattedTime = date.toISOString().split("T")[1].slice(0, 5)
+
     return (
         <button className={`bg-slate-200 dark:bg-slate-700 p-4 w-full rounded-3xl flex cursor-pointer flex-col gap-3 text-left ${ assignment.status === 'DONE' && 'opacity-50'}`}
         onClick={() => setDetails(assignment)}
@@ -23,12 +28,12 @@ export default function Assignment ({assignment, setDetails}: AssignmentProps) {
             <p> {assignment.description} </p>
 
             <div className="bg-slate-300 dark:bg-slate-600 font-semibold p-1 rounded-2xl self-baseline px-2">
-                <p> Due By: {`${assignment.dueDate}`} </p>
+                <p> Due By: {`${formattedDate}`} </p>
             </div>
             <div className="bg-rose-300 dark:bg-rose-800 font-semibold p-1 rounded-2xl self-end px-2">
-                <p> Assigned to: {assignment.assignees.map((assignee) => (
-                    <p> {assignee.user.username}</p>
-                ))}</p>
+                <div> Assigned to: {assignment.assignees.map((assignee) => (
+                    <p key={assignee.id}> {assignee.user.username}</p>
+                ))}</div>
             </div>
         </button>
     )

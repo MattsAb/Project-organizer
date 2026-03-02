@@ -1,29 +1,51 @@
 import { useNavigate } from "react-router-dom"
-import type { Project } from "../types/projectTypes"
+import type { MyProjectType } from "../types/projectTypes"
+import { api } from "../api"
+import axios from "axios"
+
+type myProjectProps = {
+    projectInfo: MyProjectType
+    canDelete: boolean
+}
 
 
-export default function MyProject({title, description, numberOfMembers, numberOfAssignments,id}: Project) {
+export default function MyProject({projectInfo, canDelete}: myProjectProps) {
 
     const navigate = useNavigate()
 
-    const goToProject = () => navigate(`/project/${id}`) 
+    const goToProject = () => navigate(`/project/${projectInfo.id}?title=${encodeURIComponent(projectInfo.title)}`) 
+
+    async function handleDelete () {
+        try {
+            await api.delete(`/delete/${projectInfo.id}`)
+            window.location.reload();
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+            //const backendMessage = err.response?.data?.message ?? err.message;
+            } else 
+            {
+            console.log("Unexpected error", err);
+            }
+        }
+
+    }
 
     return (
-        <button className="flex flex-col bg-slate-200 dark:bg-slate-800 p-8 gap-5 rounded-2xl w-full text-left cursor-pointer"
-        onClick={(goToProject)}
-        >
-            <p className="text-2xl font-semibold"> {title}</p>
-            <p className="font-semibold"> {description}</p>
-            <p className="font-semibold"> Assignments: {numberOfAssignments}</p>
-            <p className="font-semibold"> Members: {numberOfMembers}</p>
-            <div className="flex gap-5 self-end">
-                <button className="bg-rose-400 hover:bg-rose-300 active:bg-rose-200 dark:bg-rose-700 dark:hover:bg-rose-600 dark:active:bg-rose-500 p-2 rounded-2xl">
-                    Edit
-                </button>
-                <button className="bg-rose-400 hover:bg-rose-300 active:bg-rose-200 dark:bg-rose-700 dark:hover:bg-rose-600 dark:active:bg-rose-500 p-2 rounded-2xl">
-                    Delete
-                </button>
-            </div>
-        </button>
+        <div className="flex items-center">
+            <button className="flex flex-3 flex-col bg-slate-200 dark:bg-slate-800 p-8 gap-5 rounded-2xl w-full text-left cursor-pointer"
+            onClick={(goToProject)}
+            >
+                <p className="text-2xl font-semibold"> {projectInfo.title}</p>
+                <p className="font-semibold"> {projectInfo.description}</p>
+                <p className="font-semibold"> Assignments: {projectInfo._count.assignments}</p>
+                <p className="font-semibold"> Members: {projectInfo._count.members}</p>
+            </button>
+            { canDelete && (
+            <button className="dark:bg-rose-700 active:dark:bg-rose-500 flex-1 mx-5 py-5 rounded-2xl font-semibold cursor-pointer"
+            onClick={handleDelete}
+            >
+                Delete
+            </button>)}
+        </div>
     )
 }

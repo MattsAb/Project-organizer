@@ -8,6 +8,7 @@ type AssignmentStatus =
 
 export type AssignmentType = {
     id: number
+    projectId: number
     title: string
     description: string
     dueDate: string

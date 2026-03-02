@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import DashboardProject from "../components/DashboardProject";
 
-import type { DashboardProjectType, DashboardAssignmentType } from "../types/projectTypes";
+import type { DashboardProjectType } from "../types/projectTypes";
 import DashboardAssignment from "../components/DashboardAssignment";
 import axios from "axios";
 import { api } from "../api";
+import type { AssignmentType } from "../types/assignmentTypes";
 
 export default function Dashboard() {
 
   const [projects, setProjects] = useState<DashboardProjectType[]>([]);
-  const [assignments, setAssignments] = useState<DashboardAssignmentType[]>([]);
+  const [assignments, setAssignments] = useState<AssignmentType[]>([]);
 
       useEffect(() => {
         const getProjects = async () => {
@@ -29,7 +30,6 @@ export default function Dashboard() {
         getProjects()
   }, []);
 
-
   return (
     <div className="flex justify-center min-h-screen text-black dark:text-white">
 
@@ -40,7 +40,7 @@ export default function Dashboard() {
           <div className="flex flex-col w-full">
               {projects.length > 0 && (
                 projects.map((project) => (
-                  <DashboardProject {...project}/>
+                  <DashboardProject key={project.id} {...project}/>
                 ))
               )}
           </div>
@@ -57,15 +57,12 @@ export default function Dashboard() {
           <div className="mx-10">
               {assignments.length > 0 && (
                 assignments.map((assignment) => (
-                  <DashboardAssignment {...assignment}/>
+                  <DashboardAssignment key={assignment.id} {...assignment}/>
                 ))
               )}
               
           </div>
-          <button
-          onClick={() => console.log(projects)}>
-              hey
-          </button>
+
       </div>
 
     </div>

@@ -1,16 +1,18 @@
 import type { User } from "./authTypes"
 
-type ProjectRole =
+export type ProjectRole =
   | 'OWNER'
   | 'ADMIN'
   | 'MEMBER'
 
 type ProjectAssignmentType = {
+  id: number
   title: string
   assignees: Member[]
 }
 
 export type DashboardProjectType = {
+  id: number
   title: string
   description: string
   assignments: ProjectAssignmentType[]
@@ -31,8 +33,22 @@ export type Project = {
     numberOfAssignments: number
 }
 
+export type MyProjectType = Project & {
+  _count: {
+    members: number
+    assignments: number
+  }
+}
+
 export type Member = {
     id: number
     user: User
     role: ProjectRole
+    joinedAt: string
+}
+
+export type InviteType = {
+  invitedById: number
+  projectId: number
+  invitedUserId: number
 }

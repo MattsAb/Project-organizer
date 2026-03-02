@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 import { api } from "../api"
 import axios from "axios"
 
@@ -10,16 +10,16 @@ type InviteProps = {
 
 export default function InviteButton ({id, username, projectId}: InviteProps) {
 
-    const navigate = useNavigate();
+    const [invited, setInvited] = useState(false);
 
     const handleInvite = async () => {
+      if (invited) return;
+
         try {
-            console.log(projectId)
-          await api.post(`/assignment/invite/${projectId}`, {
+          await api.post(`invite/${id}/create/${projectId}`, {
             invitedId: id
           })
-
-          navigate(`/project/${projectId}`);
+          setInvited(true)
           
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
@@ -33,13 +33,13 @@ export default function InviteButton ({id, username, projectId}: InviteProps) {
     }
 
     return (
-        <div className="bg-slate-800 py-3 rounded-2xl w-1/4 flex justify-around items-center"
+        <div className="bg-slate-800 py-3 rounded-2xl w-full flex justify-around items-center"
         key={id}
         >
                 <p className="font-semibold text-2xl"> {username} </p>
-                <button className="bg-rose-600 hover:bg-rose-500 px-4 rounded-2xl font-semibold cursor-pointer"
+                <button className={`${invited ? 'bg-slate-700'  :'bg-rose-600 hover:bg-rose-500'} px-4 rounded-2xl font-semibold cursor-pointer`}
                 onClick={handleInvite}
-                > Invite </button>
+                > {invited ? 'Invited' : 'Invite'} </button>
         </div>
     )
 }
