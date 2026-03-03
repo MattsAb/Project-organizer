@@ -2,7 +2,6 @@ import {prisma} from '../prismaClient.js';
 
 export async function getUserProjects(req, res) {
   const userId = req.userId
-
   try {
 
     const myProjects = await prisma.project.findMany({
@@ -65,7 +64,7 @@ export async function createProject(req, res) {
   }
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
 
       const project = await tx.project.create({
         data: {
@@ -86,7 +85,7 @@ export async function createProject(req, res) {
       return project
     })
 
-    return res.status(201).json(result)
+    return res.status(201).json({success: true})
 
   } catch (err) {
     console.error(err)
@@ -178,14 +177,24 @@ export async function getSearch(req, res) {
 export async function getDashboard(req, res) {
 
   try {
-        const projects = await prisma.project.findMany({
+       const projects = await prisma.project.findMany({
           where: {
-            ownerId: req.userId,
+            OR: [
+              { ownerId: req.userId },
+              {
+                members: {
+                  some: {
+                    userId: req.userId,
+                    role: "ADMIN", 
+                  },
+                },
+              },
+            ],
             assignments: {
               some: {
-                status: "IN_PROGRESS"
-              }
-            }
+                status: "IN_PROGRESS",
+              },
+            },
           },
           include: {
             assignments: {
@@ -193,17 +202,17 @@ export async function getDashboard(req, res) {
               include: {
                 assignees: {
                   include: {
-                    user: true
-                  }
-                }
-              }
+                    user: true,
+                  },
+                },
+              },
             },
             members: {
               include: {
-                user: true
-              }
-            }
-          }
+                user: true,
+              },
+            },
+          },
         });
 
   const assignments = await prisma.assignment.findMany({
@@ -214,7 +223,6 @@ export async function getDashboard(req, res) {
       }
   }
 })
-    console.log(projects)
     res.status(200).json({projects, assignments})
   } catch (err) {
     console.error(err)
@@ -240,26 +248,22 @@ export async function changeRole(req, res) {
       return res.status(403).json("Can't demote the Owner of the project")
     }
 
-    const updatedMember = await prisma.projectMember.update({
+    await prisma.projectMember.update({
       where: { id: memberId },
       data: {
         role: member.role === "MEMBER" ? "ADMIN" : "MEMBER"
       }
     });
 
-    res.status(200).json(updatedMember)
+    res.status(200).json({success: true})
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false, message: 'internal server error' })
   }
 }
 export async function kickMember(req, res) {
-
     const memberId = Number(req.params.memberId);
-
-
   try {
-
     const member = await prisma.projectMember.delete({
     where: {
         id: memberId
@@ -268,11 +272,11 @@ export async function kickMember(req, res) {
 
     if (member.role === "OWNER")
     {
-      return res.status(403).json("Can't demote the Owner of the project")
+      return res.status(403).json("Can't kick the Owner of the project")
     }
 
 
-    res.status(200).json(member)
+    res.status(200).json({success: true})
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false, message: 'internal server error' })
@@ -285,7 +289,6 @@ export async function leaveProject(req, res) {
 
     if(req.membership === "OWNER")
     {
-      console.log("cant leave")
       return res.status(403).json({ message: "Owner canno't leave their own project" })
     }
 
@@ -300,7 +303,6 @@ export async function leaveProject(req, res) {
     })
 
     return res.status(200).json({ success: true })
-
   } catch (err) {
     console.error(err)
     return res.status(500).json({

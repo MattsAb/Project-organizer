@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { DashboardProjectType } from "../types/projectTypes"
+import type { DashboardProjectType } from "../../types/projectTypes"
 
 export default function DashboardProject({
   id,
@@ -42,7 +42,7 @@ export default function DashboardProject({
 
         {remainingCount > 0 && (
           <div className="text-s">
-            +{remainingCount} more
+            + {remainingCount} more
           </div>
         )}
       </div>

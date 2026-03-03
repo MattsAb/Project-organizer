@@ -3,10 +3,12 @@ import type { MessageType } from "../types/messageTypes"
 import { api } from "../api"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
+import ErrorComponent from "../components/simple_components/ErrorComponent"
 
 export default function MessageInfo() {
 
     const [messageInfo, setMessageInfo] = useState<MessageType>()
+    const [errorMessage, setErrorMessage] = useState('');
 
     const {id} = useParams();
     const navigate = useNavigate();
@@ -16,16 +18,14 @@ export default function MessageInfo() {
         try {
                 const response = await api.get(`/message/info/${id}`)
                 setMessageInfo(response.data.message)
-                console.log(response.data.messages)
             } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
-                const backendMessage = err.response?.data?.message ?? err.message;
-                console.log(backendMessage)
-
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    console.log(backendMessage)
+                    setErrorMessage(backendMessage)
                 } else 
                 {
-                console.log("Unexpected error", err);
-
+                    console.log("Unexpected error", err);
                 }
             }
         }
@@ -36,17 +36,16 @@ export default function MessageInfo() {
     async function handleDelete() {
 
     try {
-            await api.delete(`/message/delete/${id}`)
-            navigate('/messages');
+        await api.delete(`/message/delete/${id}`)
+        navigate('/messages');
     } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
+        if (axios.isAxiosError(err)) {
             const backendMessage = err.response?.data?.message ?? err.message;
             console.log(backendMessage)
 
         } else 
         {
             console.log("Unexpected error", err);
-
         }
     }
     }
@@ -55,6 +54,7 @@ export default function MessageInfo() {
 
     return (
         <div>
+            { messageInfo && (
             <div className="flex flex-col items-center justify-center gap-10">
                 <h1 className="text-2xl font-semibold mt-10"> {messageInfo?.description}</h1>
 
@@ -75,7 +75,8 @@ export default function MessageInfo() {
                         Send message
                     </button>
                 </div>
-            </div>
+            </div>)}
+            <ErrorComponent message={errorMessage}/>
         </div>
     )
 }

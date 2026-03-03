@@ -1,9 +1,11 @@
-import { BrowserRouter, Routes, Route, } from "react-router-dom"
-import Header from "./components/Header"
-import Sidebar from "./components/Sidebar"
 import { useEffect, useState } from "react"
 import { useAuth } from "./hooks/authHook"
+import { Route, Routes, useNavigate } from "react-router-dom"
+import { api } from "./api"
+import axios from "axios"
 
+import Header from "./components/Header"
+import Sidebar from "./components/Sidebar"
 import Dashboard from "./pages/Dashboard"
 import MyProjects from "./pages/MyProjects"
 import CreateProject from "./pages/CreateProject"
@@ -14,12 +16,11 @@ import Members from "./pages/Members"
 import UserList from "./pages/userList"
 import AssignmentPage from "./pages/AssignmentPage"
 import InvitePage from "./pages/InvitePage"
-import { api } from "./api"
-import axios from "axios"
-import type { NotificationsType } from "./types/inviteTypes"
 import CreateMessage from "./pages/CreateMessage"
 import MessagePage from "./pages/MessageListPage"
 import MessageInfo from "./pages/MessageInfo"
+
+import type { NotificationsType } from "./types/inviteTypes"
 
 
 function App() {
@@ -28,34 +29,40 @@ function App() {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [notifications, setNotifications] = useState<NotificationsType>()
 
-	const {user} = useAuth();
+	const {user, loading} = useAuth();
+	const navigate = useNavigate();
 
-
-	    useEffect(() => {
+	useEffect(() => {
         async function getNotifications() {
             try {
                 const response = await api.get(`/invite/notifications`)
                 setNotifications(response.data)
-				console.log(response.data)
             } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
                 console.log(backendMessage)
-
                 } else 
                 {
                 console.log("Unexpected error", err);
-
                 }
             }
         }
-
         getNotifications()
 	},[])
 
+	useEffect(() => {
+		if (user === null && !loading) {
+			navigate("/auth");
+		}
+	}, [user, navigate, loading]);
+
   return (
-		<BrowserRouter>
-		<Header title={title} user={user}  setIsExpanded={() => setIsExpanded(!isExpanded)} notifications={notifications}/>
+	<>
+		<Header title={title} 
+		user={user}  
+		setIsExpanded={() => setIsExpanded(!isExpanded)} 
+		notifications={notifications}
+		/>
 		<Sidebar isExpanded={isExpanded}/>
 
 		<div className="pt-18 pl-18 min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
@@ -75,7 +82,7 @@ function App() {
 			<Route path="/messageinfo/:id"  element={<MessageInfo/>}/>
 			</Routes>
 		</div>
-		</BrowserRouter>
+	</>
   )
 }
 

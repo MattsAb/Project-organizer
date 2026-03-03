@@ -1,5 +1,9 @@
 import express from 'express';
-import { createProject, getUserProjects, getProjectMembers, getUsers, getDashboard, changeRole, kickMember, deleteProject, leaveProject, getSearch} from '../controllers/project.controller.js';
+
+import { createProject, getUserProjects, getProjectMembers,
+     getUsers, getDashboard, changeRole, kickMember, deleteProject,
+      leaveProject, getSearch} from '../controllers/project.controller.js';
+
 import authMiddleware from "../middleware/auth.js"
 import  projectAuthMiddleware from '../middleware/projectAuth.js';
 

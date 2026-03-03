@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import type { MyProjectType } from "../types/projectTypes"
 import { api } from "../api"
 import axios from "axios"
-import ConfirmationModal from "./ConfirmationModal"
+import ConfirmationModal from "./simple_components/ConfirmationModal"
 import { useState } from "react"
 
 type myProjectProps = {
@@ -25,10 +25,10 @@ export default function MyProject({projectInfo, canDelete}: myProjectProps) {
             window.location.reload();
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-            //const backendMessage = err.response?.data?.message ?? err.message;
+                console.log(err.message)
             } else 
             {
-            console.log("Unexpected error", err);
+                console.log("Unexpected error", err);
             }
         }
 

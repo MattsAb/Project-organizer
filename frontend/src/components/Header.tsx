@@ -1,6 +1,6 @@
 import { Bars3Icon } from '@heroicons/react/16/solid';
 import { useNavigate } from "react-router-dom";
-import ExtraButtons from "./ExtraButtons";
+import ExtraButtons from "./simple_components/ExtraButtons";
 import { useEffect, useRef, useState } from "react";
 import type { User } from "../types/authTypes";
 import type { NotificationsType } from "../types/inviteTypes";
@@ -26,11 +26,11 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
     (notifications?.messages ?? 0);
 
     useEffect(() => {
-  const handleClick = (e: MouseEvent) => {
-    if (!ref.current?.contains(e.target as Node)) {
-      setOpen(false)
+    const handleClick = (e: MouseEvent) => {
+        if (!ref.current?.contains(e.target as Node)) {
+            setOpen(false)
+        }
     }
-  }
 
   document.addEventListener("mousedown", handleClick)
   return () => document.removeEventListener("mousedown", handleClick)
@@ -60,10 +60,11 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
                     >
                         <p className="font-semibold text-xl mx-4 py-1 px-2 rounded-2xl"> {user.username} </p>
                     </button>
-                    {!open && totalNotifications > 0 &&  <p className="absolute right-2 top-2 bg-red-500 border-2 border-white dark:border-slate-800 px-2 rounded-full text-white dark:text-black"> {totalNotifications} </p>}
+                    {!open && totalNotifications > 0 &&  <p className="absolute right-2 top-2 bg-red-600 border-2 border-white dark:border-slate-800 px-2 rounded-full text-white"> {totalNotifications} </p>}
                     <ExtraButtons open={open} id={user.id} notifications={notifications}/> 
                 </div>
             </div>) : (
+                
             <button className="w-full flex items-center justify-end cursor-pointer"
             onClick={goToAuth}
             >

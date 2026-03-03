@@ -3,6 +3,7 @@ import MyProject from "../components/MyProjectComponent";
 import axios from "axios";
 import { api } from "../api";
 import type { MyProjectType } from "../types/projectTypes";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
 
 
 export default function MyProjects () {
@@ -17,6 +18,7 @@ export default function MyProjects () {
                 const response = await api.get(`/userprojects`);
                 setMyProjects(response.data.myProjects);
                 setMemberProjects(response.data.memberProjects);
+                setErrorMessage('');
             } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
@@ -36,6 +38,7 @@ export default function MyProjects () {
     return (
         <div className="flex flex-col items-center gap-10 w-full">
             <p className="font-bold text-3xl mt-5"> My projects </p>
+
             <div className="w-1/2 flex flex-col gap-5">
                 {myProjects.length > 0 && (
                myProjects.map((project) => (
@@ -48,11 +51,10 @@ export default function MyProjects () {
                 )}
             </div>
 
-            <div className="flex items-center w-screen justify-center">
-                <div className="h-px bg-rose-400 dark:bg-rose-800 w-1/2"></div>
-            </div>
+            <ErrorComponent message={errorMessage}/>
+            {errorMessage === "" && myProjects.length === 0 && <p className="flex items-center justify-center"> You don't own any projects </p>}
 
-            <p className="font-bold text-3xl mt-5"> Projects you are a part of</p>
+            {memberProjects.length > 0 && <p className="font-bold text-3xl mt-5"> Projects you are a part of</p>}
 
             <div className="w-1/2 flex flex-col gap-5 mb-10">
                 {memberProjects.length > 0 && (
@@ -62,8 +64,7 @@ export default function MyProjects () {
                     canDelete={false}
                     projectInfo={project}
                 />
-                ))
-                )}
+                )))}
             </div>
         </div>
     )

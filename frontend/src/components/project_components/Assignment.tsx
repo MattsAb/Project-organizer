@@ -1,5 +1,4 @@
-import type { AssignmentType } from "../types/assignmentTypes"
-
+import type { AssignmentType } from "../../types/assignmentTypes"
 
 type AssignmentProps = {
   assignment: AssignmentType
@@ -11,10 +10,10 @@ export default function Assignment ({assignment, setDetails}: AssignmentProps) {
     const date = new Date(assignment.dueDate)
 
     const formattedDate = date.toISOString().split("T")[0]
-    //const formattedTime = date.toISOString().split("T")[1].slice(0, 5)
 
     return (
-        <button className={`bg-slate-200 dark:bg-slate-700 p-4 w-full rounded-3xl flex cursor-pointer flex-col gap-3 text-left ${ assignment.status === 'DONE' && 'opacity-50'}`}
+        <button className={`bg-slate-200 dark:bg-slate-700 p-4 w-full rounded-3xl flex cursor-pointer flex-col gap-3 text-left 
+            ${ assignment.status === 'DONE' && 'opacity-50'}`}
         onClick={() => setDetails(assignment)}
         >
 

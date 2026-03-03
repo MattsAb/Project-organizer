@@ -2,6 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
 
 export default function CreateProject () {
     const [title, setTitle] = useState('');
@@ -68,7 +69,7 @@ export default function CreateProject () {
             placeholder="Discussion description"
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-
+            <ErrorComponent message={errorMessage}/>
         </div>
 
         <button className="bg-rose-400 hover:bg-rose-300 active:bg-rose-200 dark:bg-rose-600 dark:hover:bg-rose-700 dark:active:bg-rose-800 py-3 rounded-xl font-semibold"

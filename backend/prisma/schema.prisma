@@ -19,8 +19,8 @@ enum ProjectRole {
 }
 
 enum AssignmentStatus {
-  TODO
   IN_PROGRESS
+  TODO
   DONE
 }
 
@@ -31,7 +31,6 @@ model User {
   password      String
   createdAt     DateTime           @default(now())
 
-  // Relations
   projectsOwned Project[]          @relation("ProjectOwner")
   memberships   ProjectMember[]
   assignments   AssignmentMember[]

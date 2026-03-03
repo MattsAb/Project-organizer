@@ -1,4 +1,4 @@
-import type { AssignmentType } from "../types/assignmentTypes";
+import type { AssignmentType } from "../../types/assignmentTypes";
 import { useNavigate } from "react-router-dom"
 
 

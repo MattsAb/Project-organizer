@@ -2,41 +2,43 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { api } from "../api"
-import type { Member, ProjectRole } from "../types/projectTypes"
+import type { MemberType, ProjectRole } from "../types/projectTypes"
 import { useAuth } from "../hooks/authHook"
-import ConfirmationModal from "../components/ConfirmationModal"
+import ConfirmationModal from "../components/simple_components/ConfirmationModal"
+import ErrorComponent from "../components/simple_components/ErrorComponent"
 
 export default function Members () {
 
-    const [members, setMembers] = useState<Member[]>([])
-    const [selecetedMember, setSelectedMember] = useState<Member>();
-    const [open, setOpen] = useState(false)
-    const [membership, setMembership] = useState<ProjectRole>('MEMBER')
+    const [members, setMembers] = useState<MemberType[]>([]);
+    const [selecetedMember, setSelectedMember] = useState<MemberType>();
+    const [open, setOpen] = useState(false);
+    const [membership, setMembership] = useState<ProjectRole>('MEMBER');
     const [errorMessage, setErrorMessage] = useState('');
 
     const {user} = useAuth();
+
     const navigate = useNavigate();
 
-    const { id } = useParams()
+    const { id } = useParams();
 
     useEffect(() => {
         async function getMembers() {
         try {
-                const response = await api.get(`members/${id}`)
-                setMembers(response.data.members)
-                setMembership(response.data.membership)
-            } catch (err: unknown) {
-                if (axios.isAxiosError(err)) {
+            const response = await api.get(`members/${id}`)
+            setMembers(response.data.members)
+            setMembership(response.data.membership)
+            setErrorMessage('')
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
                 setErrorMessage(backendMessage);
-                } else 
-                {
+            } else 
+            {
                 console.log("Unexpected error", err);
                 setErrorMessage("Unexpected error");
-                }
+            }
             }
         }
-
         getMembers()
     },[id])
 
@@ -46,12 +48,12 @@ export default function Members () {
             window.location.reload();
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-            const backendMessage = err.response?.data?.message ?? err.message;
-            setErrorMessage(backendMessage);
+                const backendMessage = err.response?.data?.message ?? err.message;
+                setErrorMessage(backendMessage);
             } else 
             {
-            console.log("Unexpected error", err);
-            setErrorMessage("Unexpected error");
+                console.log("Unexpected error", err);
+                setErrorMessage("Unexpected error");
             }
         }
 
@@ -63,12 +65,12 @@ export default function Members () {
             window.location.reload();
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-            const backendMessage = err.response?.data?.message ?? err.message;
-            setErrorMessage(backendMessage);
+                const backendMessage = err.response?.data?.message ?? err.message;
+                setErrorMessage(backendMessage);
             } else 
             {
-            console.log("Unexpected error", err);
-            setErrorMessage("Unexpected error");
+                console.log("Unexpected error", err);
+                setErrorMessage("Unexpected error");
             }
         }
 
@@ -76,7 +78,6 @@ export default function Members () {
 
     const goToMessage = () => {
     if (!selecetedMember) return;
-
     navigate(
         `/message/${selecetedMember.user.id}?name=${encodeURIComponent(
         selecetedMember.user.username
@@ -104,7 +105,7 @@ export default function Members () {
                         </button>
                     ))
                 )}
-                {errorMessage ? <p className="text-red-500"> {errorMessage} </p> : <></>}
+                <ErrorComponent message={errorMessage}/>
             </div>
 
             <div className="flex items-center h-screen">

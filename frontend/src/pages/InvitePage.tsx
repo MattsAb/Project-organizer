@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import axios from "axios";
 import type { InviteType } from "../types/inviteTypes";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
 
 export default function InvitePage () {
 
     const [invites, setInvites] = useState<InviteType[]>([])
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         async function getInvites() {
@@ -14,17 +16,15 @@ export default function InvitePage () {
                 setInvites(response.data.invites)
             } catch (err: unknown) {
                 if (axios.isAxiosError(err)) {
-                const backendMessage = err.response?.data?.message ?? err.message;
-                console.log(backendMessage)
-
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    console.log(backendMessage)
+                    setErrorMessage(backendMessage)
                 } else 
                 {
-                console.log("Unexpected error", err);
-
+                    console.log("Unexpected error", err);
                 }
             }
         }
-
         getInvites()
 },[])
 
@@ -36,11 +36,12 @@ async function handleInvite (process: string, projectId: number, inviteId: numbe
         window.location.reload();
     } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
-        const backendMessage = err.response?.data?.message ?? err.message;
-        console.log(backendMessage)
+            const backendMessage = err.response?.data?.message ?? err.message;
+            console.log(backendMessage)
+            setErrorMessage(backendMessage);
         } else 
         {
-        console.log("Unexpected error", err);
+            console.log("Unexpected error", err);
         }
     }
 }
@@ -73,6 +74,8 @@ async function handleInvite (process: string, projectId: number, inviteId: numbe
                     ))}
                 
             </div>)}
+            <ErrorComponent message={errorMessage}/>
+            {errorMessage === "" && invites.length === 0 && <p className="flex items-center justify-center"> No invites </p>}
         </div>
     )
 }

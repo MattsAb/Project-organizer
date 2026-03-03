@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import type { AssignmentType } from "../types/assignmentTypes"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { api } from "../api";
 import axios from "axios";
 import { useAuth } from "../hooks/authHook";
-import { handleDecline, handleDelete, handleFinsih, handleProcess } from "../hooks/assignmentHook";
 import type { ProjectRole } from "../types/projectTypes";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
+import AssignmentButtons from "../components/AssignmentButtons";
 
 export default function AssignmentPage () {
 
-    const [assignmentInfo, setAssignmentInfo] = useState<AssignmentType>()
-    const [membership, setMembership] = useState<ProjectRole>('MEMBER')
+    const [assignmentInfo, setAssignmentInfo] = useState<AssignmentType>();
+    const [membership, setMembership] = useState<ProjectRole>('MEMBER');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { id, projectId } = useParams();
     const {user} = useAuth();
-    const navigate = useNavigate();
 
     const isAssigned = assignmentInfo?.assignees.some(a => a.user.id === user?.id)
 
@@ -28,7 +29,7 @@ export default function AssignmentPage () {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
                 console.log(backendMessage);
-                
+                setErrorMessage(backendMessage)
             } else {
                 console.log("Unexpected error", err);
             }
@@ -39,6 +40,7 @@ export default function AssignmentPage () {
 
     return (
         <div className="flex justify-center">
+            { assignmentInfo &&
             <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-200 px-5 py-10 rounded-3xl w-1/2">
                 <h1 className="text-3xl font-semibold"> {assignmentInfo?.title} </h1>
                 <div className="flex flex-col items-center mt-10 text-2xl gap-10">
@@ -65,55 +67,20 @@ export default function AssignmentPage () {
                     )}
                     </div>
                 </div>
+
                 <div className="flex w-2/3 items-center justify-center gap-5 mt-10">
-
-                    { membership !== "MEMBER" && ( 
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-                        onClick={() => {
-                            handleDelete(assignmentInfo?.projectId, assignmentInfo?.id)
-                            navigate('/');
-                        }}
-                        >
-                            Delete
-                        </button>
-                    )}
-
-                    { membership  !== "MEMBER" && assignmentInfo?.status !== "DONE" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-                        onClick={() =>  {
-                            handleFinsih(assignmentInfo?.projectId, assignmentInfo?.id)
-                            navigate('/');
-                        }}
-                        >
-                            Complete
-                        </button>
-                    )}
-                    
-                    { membership !== "MEMBER" && assignmentInfo?.status === "IN_PROGRESS" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-                        onClick={() =>  {
-                            handleDecline(assignmentInfo?.projectId, assignmentInfo?.id)
-                            navigate('/');
-                        }}
-                        >
-                            Decline
-                        </button>
-                    )}
-
-                    { isAssigned && assignmentInfo?.status === "TODO" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-                        onClick={() => {
-                            handleProcess(assignmentInfo?.projectId, assignmentInfo?.id)
-                            navigate('/');
-                        }}
-                        >
-                            set to progress
-                        </button>
-                    )}
-
+                    <AssignmentButtons 
+                    membership={membership}
+                    status={assignmentInfo.status}
+                    title={assignmentInfo.title}
+                    projectId={assignmentInfo.projectId}
+                    assignmentId={assignmentInfo.id}
+                    isAssigned={isAssigned !== undefined && isAssigned}
+                    />
                 </div>
 
-            </div>
+            </div>}
+            <ErrorComponent message={errorMessage}/>
         </div>
     )
 }

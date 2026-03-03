@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/authHook";
-import type { NotificationsType } from "../types/inviteTypes";
+import { useAuth } from "../../hooks/authHook";
+import type { NotificationsType } from "../../types/inviteTypes";
 
 type ExtraButtonsProps = {
     open: boolean
@@ -17,6 +17,7 @@ export default function ExtraButtons({ open, id, notifications }: ExtraButtonsPr
         logout();
         navigate('/auth')
     }
+    
     const goToInvites = () => navigate(`/invites/${id}`)
     const goToMessages = () => navigate(`/messages`)
 

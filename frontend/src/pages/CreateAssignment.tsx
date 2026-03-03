@@ -3,6 +3,7 @@ import { api } from "../api";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import type { SelectableMembers } from "../types/assignmentTypes";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
 
 
 export default function CreateAssignment () {
@@ -36,7 +37,7 @@ export default function CreateAssignment () {
               setErrorMessage(backendMessage);
             } else 
             {
-              console.log("Unexpected error", err);
+              console.log("Unexpected error");
               setErrorMessage("Unexpected error");
             }
         }
@@ -53,7 +54,6 @@ export default function CreateAssignment () {
        try {
           const response = await api.get(`members/${id}`)
           setMembers(response.data.members)
-          
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
               const backendMessage = err.response?.data?.message ?? err.message;
@@ -63,7 +63,6 @@ export default function CreateAssignment () {
             {
               console.log("Unexpected error", err);
               setErrorMessage("Unexpected error");
-              console.log(errorMessage)
             }
         }
 
@@ -119,7 +118,7 @@ export default function CreateAssignment () {
                 onClick={getMembers}>
                   Assign members
               </button>
-
+              <ErrorComponent message={errorMessage}/>
           </div>
 
           <button className="bg-rose-400 hover:bg-rose-300 active:bg-rose-200 dark:bg-rose-600 dark:hover:bg-rose-700 dark:active:bg-rose-800 py-3 rounded-xl font-semibold"
@@ -134,6 +133,7 @@ export default function CreateAssignment () {
         <div className="flex items-center">
           <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
         </div>
+
       { membersShown && (
       <div className="flex-1 flex">
           <div className="w-full flex flex-col gap-5 mx-10 mt-15">
@@ -147,8 +147,8 @@ export default function CreateAssignment () {
                 onClick={() => {
                   setSelectedMembers((prev) =>
                     prev.includes(member.userId)
-                      ? prev.filter((id) => id !== member.userId) // remove if already selected
-                      : [...prev, member.userId]                  // add if not selected
+                      ? prev.filter((id) => id !== member.userId) 
+                      : [...prev, member.userId]
                   )
                 }}
               >

@@ -14,7 +14,18 @@ export async function getAssignments(req, res) {
             }
         }
         })
-      
+
+        const statusPriority = {
+          IN_PROGRESS: 0,
+          TODO: 1,
+          DONE: 2,
+        };
+
+        assignments.sort(
+          (a, b) =>
+            statusPriority[a.status] - statusPriority[b.status]
+        );
+              
     const membership = req.membership
 
     res.status(200).json({assignments, membership})
@@ -55,7 +66,7 @@ export async function createAssignment(req, res) {
       }
     })
 
-    return res.status(201).json(assignment)
+    return res.status(201).json({success: true})
 
   } catch (err) {
     console.error(err)
@@ -84,8 +95,6 @@ export async function getInfo(req, res) {
     }
 
     const membership = req.membership
-    console.log(assignment)
-
     res.status(200).json({ assignment, membership });
   } catch (err) {
     console.error(err);
@@ -124,7 +133,7 @@ export async function setProcess(req, res) {
       }
     });
 
-    return res.status(200).json(updatedAssignment);
+    return res.status(200).json({success: true});
 
   } catch (err) {
     console.error(err);
@@ -149,12 +158,12 @@ export async function setFinish(req, res) {
       return res.status(404).json({ message: "Assignment not found" });
     }
 
-    const updatedAssignment = await prisma.assignment.update({
+    await prisma.assignment.update({
       where: { id: assignmentId },
       data: { status: "DONE" }
     });
 
-    return res.status(200).json({success: false});
+    return res.status(200).json({success: true});
 
   } catch (err) {
     console.error(err);
@@ -169,7 +178,7 @@ export async function declineAssignment(req, res) {
   try {
     const assignment = await prisma.assignment.findUnique({
       where: { id: assignmentId },
-      include: { assignees: true } // get all assigned users
+      include: { assignees: true }
     });
 
     if (!assignment) {
@@ -181,13 +190,12 @@ export async function declineAssignment(req, res) {
       return res.status(403).json({ message: "Assignment has already been finished" });
     }
 
-    const updatedAssignment = await prisma.assignment.update({
+    await prisma.assignment.update({
       where: { id: assignmentId },
       data: { status: "TODO" }
     });
 
-    return res.status(200).json(updatedAssignment);
-
+    return res.status(200).json({success: true});
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: "internal server error" });

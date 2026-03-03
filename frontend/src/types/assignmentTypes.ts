@@ -1,7 +1,7 @@
 import type { User } from "./authTypes"
-import type { Member } from "./projectTypes"
+import type { MemberType } from "./projectTypes"
 
-type AssignmentStatus =
+export type AssignmentStatus =
   | "TODO"
   | "IN_PROGRESS"
   | "DONE"
@@ -12,7 +12,7 @@ export type AssignmentType = {
     title: string
     description: string
     dueDate: string
-    assignees: Member[]
+    assignees: MemberType[]
     status: AssignmentStatus
 }
 

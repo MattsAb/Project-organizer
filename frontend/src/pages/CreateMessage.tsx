@@ -2,6 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import ErrorComponent from "../components/simple_components/ErrorComponent";
 
 export default function CreateMessage () {
     const [body, setBody] = useState('');
@@ -20,9 +21,7 @@ export default function CreateMessage () {
             body,
             description
           })
-
           navigate('/');
-          
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
               const backendMessage = err.response?.data?.message ?? err.message;
@@ -30,9 +29,8 @@ export default function CreateMessage () {
               setErrorMessage(backendMessage);
             } else 
             {
-              console.log("Unexpected error", err);
+              console.log("Unexpected error");
               setErrorMessage("Unexpected error");
-              console.log(errorMessage)
             }
         }
     }
@@ -64,14 +62,13 @@ export default function CreateMessage () {
             placeholder="Message body"
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-
+          <ErrorComponent message={errorMessage}/>
         </div>
 
         <button className="bg-rose-400 hover:bg-rose-300 active:bg-rose-200 dark:bg-rose-600 dark:hover:bg-rose-700 dark:active:bg-rose-800 py-3 rounded-xl font-semibold"
         onClick={handleMessage}>
           Send Message
         </button>
-
       </div>
       
     </div>

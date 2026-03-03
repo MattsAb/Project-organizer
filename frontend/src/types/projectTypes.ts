@@ -8,7 +8,7 @@ export type ProjectRole =
 type ProjectAssignmentType = {
   id: number
   title: string
-  assignees: Member[]
+  assignees: MemberType[]
 }
 
 export type DashboardProjectType = {
@@ -40,15 +40,9 @@ export type MyProjectType = Project & {
   }
 }
 
-export type Member = {
+export type MemberType = {
     id: number
     user: User
     role: ProjectRole
     joinedAt: string
-}
-
-export type InviteType = {
-  invitedById: number
-  projectId: number
-  invitedUserId: number
 }

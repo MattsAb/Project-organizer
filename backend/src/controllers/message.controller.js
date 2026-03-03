@@ -6,6 +6,10 @@ export async function getMessages(req, res) {
       where: {
         receiverId: req.userId
       },
+        orderBy: [
+        { isChecked: "asc" },
+        { createdAt: "desc" }, 
+        ],
       include: {
         sender: {
           select: {
@@ -64,7 +68,7 @@ export async function createMessage(req, res) {
 
     if(receiverId === req.userId)
     {
-        return res.status(403).json({success: false, message: "you are not allowed to message yourself"})
+        return res.status(403).json({success: false, message: "you are not allowed to send messages to yourself"})
     }
 
     try {
@@ -89,23 +93,22 @@ export async function deleteMessage(req, res) {
     const messageId = Number(req.params.id)
 
     try {
-            const message = await prisma.message.findUnique({
-                where:{
-                    id: messageId
-                }
-            })
-
-            if (message.receiverId !== req.userId)
-            {
-                return res.status(403).json({message: "you are not the owner of this message"})
+        const message = await prisma.message.findUnique({
+            where:{
+                id: messageId
             }
+        })
+
+        if (message.receiverId !== req.userId)
+        {
+            return res.status(403).json({message: "you are not the owner of this message"})
+        }
 
         await prisma.message.delete({
             where: {
                 id: messageId
             }
         })
-
 
     res.status(200).json({success: true})
   } catch (err) {

@@ -69,8 +69,7 @@ export async function createInvite(req, res) {
         }
         })
 
-        console.log('created an invite')
-    res.status(200).json({invite})
+    res.status(200).json({success: true})
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false, message: 'internal server error' })
@@ -87,7 +86,7 @@ export async function processInvite(req, res) {
     try {
         if (process === 'ACCEPTED')
         {
-            const member = await prisma.projectMember.create({
+          await prisma.projectMember.create({
             data: {
                 userId: req.userId,
                 projectId: projectId,
@@ -95,7 +94,7 @@ export async function processInvite(req, res) {
             })
         }
 
-        const invite = await prisma.projectInvite.delete({
+        await prisma.projectInvite.delete({
             where: {
                 id: inviteId
             }

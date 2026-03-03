@@ -2,7 +2,7 @@ import axios from "axios";
 import { api } from "../../api";
 import { useNavigate } from "react-router-dom";
 import type { ProjectRole } from "../../types/projectTypes";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../simple_components/ConfirmationModal";
 import { useState } from "react";
 
 type actionButtonsType = {
@@ -17,17 +17,17 @@ export default function ActionButtons ({id, membership, title}: actionButtonsTyp
 
     const navigate = useNavigate();
 
-
       async function handleLeave() {
         try {
             await api.delete(`/leave/${id}`)
             navigate('/');
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-            //const backendMessage = err.response?.data?.message ?? err.message;
+                const backendMessage = err.response?.data?.message ?? err.message;
+                console.log(backendMessage)
             } else 
             {
-            console.log("Unexpected error", err);
+                console.log("Unexpected error", err);
             }
         }
       }

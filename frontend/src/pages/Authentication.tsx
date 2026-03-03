@@ -24,7 +24,6 @@ export default function Authentication () {
                     password,
                     email
                     });
-
                     await login(response.data.token);
                     navigate('/');
                     window.location.reload();
@@ -38,9 +37,8 @@ export default function Authentication () {
                     console.log("Unexpected error", err);
                     setErrorMessage("Unexpected error");
                 }
-                }
+            }
     }
-
     return (
         <div className="flex flex-col items-center text-black dark:text-white">
 
