@@ -39,6 +39,9 @@ model User {
 
   sentInvites     ProjectInvite[]  @relation("InviteSender")
   receivedInvites ProjectInvite[]  @relation("InviteReceiver")
+
+  sentMessages     Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageReceiver")
 }
 
 model Project {
@@ -118,4 +121,20 @@ model ProjectInvite {
   createdAt  DateTime @default(now())
 
   @@unique([projectId, invitedUserId])
+  
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  description String?
+  body       String
+  isChecked  Boolean @default(false)
+
+  senderId   Int
+  sender     User    @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  receiverId Int
+  receiver   User    @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
 }

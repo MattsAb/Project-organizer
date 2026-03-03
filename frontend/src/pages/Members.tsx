@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { api } from "../api"
 import type { Member, ProjectRole } from "../types/projectTypes"
@@ -13,6 +13,7 @@ export default function Members () {
     const [errorMessage, setErrorMessage] = useState('');
 
     const {user} = useAuth();
+    const navigate = useNavigate();
 
     const { id } = useParams()
 
@@ -71,6 +72,16 @@ export default function Members () {
 
     }
 
+    const goToMessage = () => {
+    if (!selecetedMember) return;
+
+    navigate(
+        `/message/${selecetedMember.user.id}?name=${encodeURIComponent(
+        selecetedMember.user.username
+        )}`
+    );
+    };
+
     return (
         <div className="flex mt-10">
             <div className="flex-2 flex flex-col items-center gap-5">
@@ -107,7 +118,8 @@ export default function Members () {
                         <p> Role: {selecetedMember.role} </p>
 
                         { user?.id !== selecetedMember.user.id &&
-                        <button className="bg-slate-700 py-2 px-4 rounded-2xl cursor-pointer">
+                        <button className="bg-slate-700 py-2 px-4 rounded-2xl cursor-pointer"
+                        onClick={goToMessage}>
                             Message
                         </button>
                         }

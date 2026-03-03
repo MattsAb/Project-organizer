@@ -17,4 +17,5 @@ export type InviteType = {
 
 export type NotificationsType = {
         invites: number
+        messages: number
 }

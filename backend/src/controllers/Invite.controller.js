@@ -36,7 +36,13 @@ export async function getNotifications(req, res) {
             invitedUserId: req.userId
         }
         });
-    res.status(200).json({invites: inviteCount})
+
+        const messageCount = await prisma.message.count({
+        where: {
+            receiverId: req.userId
+        }
+        });
+    res.status(200).json({invites: inviteCount, messages: messageCount})
   } catch (err) {
     console.error(err)
     res.status(500).json({ success: false, message: 'internal server error' })

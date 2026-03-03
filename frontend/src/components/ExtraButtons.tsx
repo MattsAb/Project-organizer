@@ -18,15 +18,17 @@ export default function ExtraButtons({ open, id, notifications }: ExtraButtonsPr
         navigate('/auth')
     }
     const goToInvites = () => navigate(`/invites/${id}`)
+    const goToMessages = () => navigate(`/messages`)
 
     return (
         open && (
             <div className="absolute top-14 right-4 w-48 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-3 z-50 flex flex-col gap-2">
                 <button
-                    onClick={() => console.log('hey')}
-                    className="block w-full py-2 hover:bg-slate-200 dark:hover:bg-slate-700 px-3 text-left rounded-lg cursor-pointer"
+                    onClick={goToMessages}
+                    className=" w-full py-2 hover:bg-slate-20  dark:hover:bg-slate-700 px-3 text-left rounded-lg cursor-pointer flex justify-between"
                 >
                     Messages
+                    {notifications?.messages !== 0 && <p> {notifications?.messages} </p>}
                 </button>
 
                 <button

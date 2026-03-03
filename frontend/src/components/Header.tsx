@@ -21,6 +21,10 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
     const navigate = useNavigate();
     const goToAuth = () => navigate('/auth');
 
+    const totalNotifications =
+    (notifications?.invites ?? 0) +
+    (notifications?.messages ?? 0);
+
     useEffect(() => {
   const handleClick = (e: MouseEvent) => {
     if (!ref.current?.contains(e.target as Node)) {
@@ -56,7 +60,7 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
                     >
                         <p className="font-semibold text-xl mx-4 py-1 px-2 rounded-2xl text-white"> {user.username} </p>
                     </button>
-                    {!open && notifications?.invites !== 0 && <p className="absolute right-3 top-2 bg-orange-500 border-2 border-rose-800 px-1 rounded-full"> {notifications?.invites} </p>}
+                    {!open && totalNotifications > 0 &&  <p className="absolute right-3 top-2 bg-orange-500 border-2 border-rose-800 px-1 rounded-full"> {totalNotifications} </p>}
                     <ExtraButtons open={open} id={user.id} notifications={notifications}/> 
                 </div>
             </div>) : (

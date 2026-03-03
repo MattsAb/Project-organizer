@@ -11,7 +11,8 @@ export default function DashboardProject({
   const navigate = useNavigate();
 
   const goToAssignment = (assignmentId: number, projectId: number) => navigate(`/${projectId}/assignment/${assignmentId}`)
-  const goToProject = (projectId: number) => navigate(`/project/${projectId}`)
+  const goToProject = (projectId: number) => navigate(`/project/${projectId}?title=${encodeURIComponent(title)}`) 
+
 
   const visibleAssignments = assignments.slice(0, 3)
   const remainingCount = assignments.length - 3

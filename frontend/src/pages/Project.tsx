@@ -8,7 +8,12 @@ import axios from "axios"
 import type { ProjectRole } from "../types/projectTypes"
 import ActionButtons from "../components/project_components/ActionButtonsComponent"
 
-export default function Project () {
+type ProjectProps = {
+  setTitle: (title: string) => void
+};
+
+
+export default function Project ({setTitle}: ProjectProps) {
 
     const [assignments, setAssignments] = useState<AssignmentType[]>([])
     const [selectedAssignment, setSelectedAssignment] = useState<AssignmentType>()
@@ -38,6 +43,15 @@ export default function Project () {
         } 
         getProjectAssignments()
   }, [id]);
+
+    useEffect(() => {
+        if (!title) return
+        setTitle(title)
+
+        return () => {
+            setTitle("");
+        };
+    })
 
     return (
         <div className="flex justify-center min-h-screen text-black dark:text-white">
