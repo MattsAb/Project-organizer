@@ -2,13 +2,18 @@ import axios from "axios";
 import { api } from "../../api";
 import { useNavigate } from "react-router-dom";
 import type { ProjectRole } from "../../types/projectTypes";
+import ConfirmationModal from "../ConfirmationModal";
+import { useState } from "react";
 
 type actionButtonsType = {
     id: string | undefined
     membership: ProjectRole
+    title: string
 }
 
-export default function ActionButtons ({id, membership}: actionButtonsType) {
+export default function ActionButtons ({id, membership, title}: actionButtonsType) {
+
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -37,21 +42,21 @@ export default function ActionButtons ({id, membership}: actionButtonsType) {
             <p className="font-semibold text-2xl"> actions</p>
             
             { membership !== "MEMBER" && (
-                <button className="bg-slate-300 hover:bg-slate-200 active:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600 p-3 rounded-2xl cursor-pointer"
+                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
                 onClick={gotoCreate}
                 >
                     Add assignment
                 </button>
             )}
 
-            <button className="bg-slate-300 hover:bg-slate-200 active:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600 p-3 rounded-2xl cursor-pointer"
+            <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
             onClick={goToMembers}
             >
                 Project members
             </button>
 
             { membership !== "MEMBER" && (
-                <button className="bg-slate-300 hover:bg-slate-200 active:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600 p-3 rounded-2xl cursor-pointer"
+                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
                 onClick={(goToUserList)}
                 >
                     Add new members
@@ -59,12 +64,20 @@ export default function ActionButtons ({id, membership}: actionButtonsType) {
             )}
 
             { membership !== "OWNER" && (
-                <button className="bg-slate-300 hover:bg-slate-200 active:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600 p-3 rounded-2xl cursor-pointer"
-                onClick={handleLeave}
+                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
+                onClick={() => setOpen(true)}
                 >
                     Leave project
                 </button>
             )}
+
+            <ConfirmationModal
+            onClose={() => setOpen(false)}
+            onConfirm={handleLeave}
+            context="leave"
+            title={title}
+            open={open}
+            />
         </div>
     )
 

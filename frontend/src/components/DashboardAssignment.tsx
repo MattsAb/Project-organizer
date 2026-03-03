@@ -9,7 +9,7 @@ export default function DashboardAssignment ({title, description, dueDate, id, p
     const goToAssignment = () => navigate(`${projectId}/assignment/${id}`)
 
     return (
-        <button className="bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 p-5 rounded-3xl flex flex-col gap-8 my-5 text-left w-full cursor-pointer"
+        <button className="bg-gray-200 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 p-5 rounded-3xl flex flex-col gap-8 my-5 text-left w-full cursor-pointer"
         onClick={goToAssignment}
         >
             <p className="text-2xl font-semibold"> {title} </p>

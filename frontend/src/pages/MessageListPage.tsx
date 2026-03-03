@@ -39,11 +39,11 @@ const goToMessage = (id: number) => navigate(`/messageinfo/${id}`)
         <div className="flex flex-col items-center w-full">
             <p className="font-bold text-3xl my-10"> Messages </p>
             {messages.length > 0 && (
-            <div className="bg-slate-800 w-2/3 flex flex-col items-center rounded-2xl py-5">
+            <div className="dark:bg-slate-800 bg-slate-200 w-1/2 flex flex-col items-center rounded-2xl py-5">
                    { messages.map((message) => (
-                        <button className="bg-slate-700 px-4 py-4 m-2 w-2/3 rounded-2xl flex items-center justify-between text-2xl gap-4 cursor-pointer" key={message.id}
+                        <button className="dark:bg-slate-700 bg-slate-300 px-4 py-4 m-2 w-2/3 rounded-2xl flex items-center text-2xl gap-4 cursor-pointer" key={message.id}
                         onClick={() => goToMessage(message.id)}> 
-                            <div className="flex gap-2 flex-wrap min-w-0 flex-1">
+                            <div className="flex gap-2 flex-col flex-wrap min-w-0 flex-1 text-left">
                                 <p className="font-semibold text-2xl"> {message.sender.username} </p>
                                 <p className="font-semibold wrap-break-word"> {message.description} </p>
                             </div>

@@ -39,7 +39,8 @@ export async function getNotifications(req, res) {
 
         const messageCount = await prisma.message.count({
         where: {
-            receiverId: req.userId
+            receiverId: req.userId,
+            isChecked: false
         }
         });
     res.status(200).json({invites: inviteCount, messages: messageCount})

@@ -2,6 +2,8 @@ import type { AssignmentType } from "../types/assignmentTypes";
 import { useAuth } from "../hooks/authHook";
 import { handleDecline, handleDelete, handleFinsih, handleProcess } from "../hooks/assignmentHook";
 import type { ProjectRole } from "../types/projectTypes";
+import ConfirmationModal from "./ConfirmationModal";
+import { useState } from "react";
 
 type InfoProps = {
     details: AssignmentType
@@ -9,6 +11,8 @@ type InfoProps = {
 }
 
 export default function AssignmentDetails ({details, membership}: InfoProps) {
+
+    const [open, setOpen] = useState(false)
 
     const {user} = useAuth();
 
@@ -35,7 +39,7 @@ export default function AssignmentDetails ({details, membership}: InfoProps) {
                 <p className="mb-3">Assigned to:</p>
                 <div className="flex"> 
                     {details.assignees.map((assignee) => (
-                        <p key={assignee.id} className="font-semibold bg-slate-700 py-2 px-4 rounded-2xl text-center mx-1"> {assignee.user.username} </p>
+                        <p key={assignee.id} className="font-semibold bg-gray-300 dark:bg-slate-700 py-2 px-4 rounded-2xl text-center mx-1"> {assignee.user.username} </p>
                     ))}
                 </div>
             </div>
@@ -43,15 +47,15 @@ export default function AssignmentDetails ({details, membership}: InfoProps) {
             <div className="flex w-full items-center justify-center gap-5">
 
                 { membership !== "MEMBER" && ( 
-                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-                    onClick={() => handleDelete(details.projectId, details.id)}
+                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                    onClick={() => setOpen(true)}
                     >
                         Delete
                     </button>
                 )}
 
                 { membership !== "MEMBER" && details.status !== "DONE" && (
-                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                     onClick={() =>  handleFinsih(details.projectId, details.id)}
                     >
                         Complete
@@ -59,7 +63,7 @@ export default function AssignmentDetails ({details, membership}: InfoProps) {
                 )}
 
                 { membership !== "MEMBER" && details.status === "IN_PROGRESS" && (
-                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                     onClick={() =>  handleDecline(details.projectId, details.id)}
                     >
                         Decline
@@ -67,7 +71,7 @@ export default function AssignmentDetails ({details, membership}: InfoProps) {
                 )}
 
                 { isAssigned && details.status === "TODO" && (
-                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                    <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                     onClick={() => handleProcess(details.projectId, details.id)}
                     >
                         set to progress
@@ -75,6 +79,13 @@ export default function AssignmentDetails ({details, membership}: InfoProps) {
                 )}
 
             </div>
+            <ConfirmationModal
+            onClose={() => setOpen(false)}
+            onConfirm={() => handleDelete(details.projectId, details.id)}
+            context="delete"
+            title={details.title}
+            open={open}
+            />
         </div>
     )
 }

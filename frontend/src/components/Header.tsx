@@ -37,12 +37,12 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
 }, [])
 
     return (
-        <div className="dark:bg-rose-900 bg-rose-300 fixed left-0 right-0 h-18 border-b-2 dark:border-rose-600 border-rose-400 flex dark:text-white text-black z-30">
+        <div className="bg-white dark:bg-slate-800  fixed left-0 right-0 h-18 border-b-2 dark:border-slate-900 border-gray-300 flex dark:text-white text-black z-30">
             <div className="w-full flex items-center ">
-                <button className="bg-rose-400 dark:bg-rose-600 active:bg-rose-200 dark:active:bg-rose-400 rounded-full p-2 mx-2 cursor-pointer"
+                <button className=" active:bg-gray-200 dark:active:bg-slate-700 rounded-full p-2 mx-2 cursor-pointer"
                 onClick={setIsExpanded}
                 >
-                    <Bars3Icon className="h-8 w-8 text-white"/>
+                    <Bars3Icon className="h-8 w-8"/>
                 </button>
             </div>
 
@@ -58,9 +58,9 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
 
                     }}
                     >
-                        <p className="font-semibold text-xl mx-4 py-1 px-2 rounded-2xl text-white"> {user.username} </p>
+                        <p className="font-semibold text-xl mx-4 py-1 px-2 rounded-2xl"> {user.username} </p>
                     </button>
-                    {!open && totalNotifications > 0 &&  <p className="absolute right-3 top-2 bg-orange-500 border-2 border-rose-800 px-1 rounded-full"> {totalNotifications} </p>}
+                    {!open && totalNotifications > 0 &&  <p className="absolute right-2 top-2 bg-red-500 border-2 border-white dark:border-slate-800 px-2 rounded-full text-white dark:text-black"> {totalNotifications} </p>}
                     <ExtraButtons open={open} id={user.id} notifications={notifications}/> 
                 </div>
             </div>) : (

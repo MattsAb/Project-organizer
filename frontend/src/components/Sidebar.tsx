@@ -18,22 +18,24 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
     <div
       className={`
         fixed top-18 left-0 bottom-0
-        bg-rose-300 dark:bg-rose-900 border-r-2 border-rose-400 dark:border-rose-600
+         dark:bg-slate-800 border-r-2 border-gray-300 dark:border-slate-900 bg-white
+         text-black dark:text-white
         transition-all duration-300
         ${isExpanded ? "w-64 px-4" : "w-16 px-2"}
         flex flex-col
         z-30
       `}
     >
-      <div className="flex flex-col gap-5 my-5 bg-rose-400 dark:bg-rose-600 rounded-3xl py-4">
+      <div className="flex flex-col gap-5 my-5 bg-gray-100 dark:bg-slate-900 rounded-3xl py-4">
         {navItems.map(({ label, icon: Icon, path }) => (
           <button
             key={label}
             onClick={() => navigate(path)}
             className={`
               flex items-center
-              hover:bg-rose-500 active:bg-rose-400
-              text-white font-semibold
+              hover:bg-slate-200 active:bg-slate-300
+              dark:hover:bg-slate-700 dark:active:bg-slate-600
+               font-semibold
               rounded-2xl ${isExpanded && "mx-2" } px-2 py-2
               transition-colors
               overflow-hidden`}

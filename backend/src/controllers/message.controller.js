@@ -27,6 +27,16 @@ export async function getMessageInfo(req, res) {
  const messageId = Number(req.params.id)
 
   try {
+    await prisma.message.update({
+        where: {
+            id: messageId
+        },
+        data: {
+            isChecked: true
+        }
+        
+    })
+
     const message = await prisma.message.findUnique({
       where: {
         id: messageId

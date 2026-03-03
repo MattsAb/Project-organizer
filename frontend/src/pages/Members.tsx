@@ -4,11 +4,13 @@ import axios from "axios"
 import { api } from "../api"
 import type { Member, ProjectRole } from "../types/projectTypes"
 import { useAuth } from "../hooks/authHook"
+import ConfirmationModal from "../components/ConfirmationModal"
 
 export default function Members () {
 
     const [members, setMembers] = useState<Member[]>([])
     const [selecetedMember, setSelectedMember] = useState<Member>();
+    const [open, setOpen] = useState(false)
     const [membership, setMembership] = useState<ProjectRole>('MEMBER')
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -41,7 +43,7 @@ export default function Members () {
     async function handleRoleChange (memberId: number) {
         try {
             await api.put(`/${id}/members/${memberId}/role`)
-            
+            window.location.reload();
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
             const backendMessage = err.response?.data?.message ?? err.message;
@@ -58,7 +60,7 @@ export default function Members () {
     async function handleKick(memberId: number) {
         try {
             await api.delete(`/${id}/members/${memberId}/kick`)
-            
+            window.location.reload();
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
             const backendMessage = err.response?.data?.message ?? err.message;
@@ -89,7 +91,7 @@ export default function Members () {
 
                 {members.length > 0 && (
                     members.map((member) => (
-                        <button className="bg-slate-800 hover:bg-slate-700 py-3 rounded-2xl w-1/3 cursor-pointer flex justify-around items-center"
+                        <button className="bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 py-3 rounded-2xl w-1/3 cursor-pointer flex justify-around items-center"
                         key={member.id}
                         onClick={() => setSelectedMember(member)}
                         >
@@ -97,7 +99,7 @@ export default function Members () {
                            <p className={`
                             ${ member.role === 'OWNER' &&'bg-rose-600'}
                             ${member.role === 'ADMIN' && 'bg-rose-400'}
-                            ${member.role === 'MEMBER' && 'bg-slate-700'}
+                            ${member.role === 'MEMBER' && 'dark:bg-slate-700 bg-gray-300'}
                             px-4 rounded-2xl`}> {member.role}</p>
                         </button>
                     ))
@@ -112,13 +114,13 @@ export default function Members () {
             <div className="flex-1 flex flex-col items-center">
                 <p className="font-semibold text-3xl"> Member information </p>
                 {selecetedMember && (
-                    <div className="flex flex-col gap-10 mt-10 items-center text-2xl bg-slate-800 py-8 px-16 rounded-3xl">
+                    <div className="flex flex-col gap-10 mt-10 items-center text-2xl bg-gray-200 dark:bg-slate-800 py-8 px-16 rounded-3xl">
                         <p> {selecetedMember.user.username} </p>
                         <p> Joined at: {selecetedMember.joinedAt.split("T")[0]} </p>
                         <p> Role: {selecetedMember.role} </p>
 
                         { user?.id !== selecetedMember.user.id &&
-                        <button className="bg-slate-700 py-2 px-4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-slate-700 bg-gray-300 py-2 px-4 rounded-2xl cursor-pointer"
                         onClick={goToMessage}>
                             Message
                         </button>
@@ -126,11 +128,11 @@ export default function Members () {
 
                        { membership !== "MEMBER" && selecetedMember.role !== "OWNER" && user?.id !== selecetedMember.user.id && (
                         <div className="flex flex-col gap-10">
-                            <button className="bg-slate-700 py-2 px-4 rounded-2xl cursor-pointer"
+                            <button className="dark:bg-slate-700 bg-gray-300 py-2 px-4 rounded-2xl cursor-pointer"
                             onClick={() => handleRoleChange(selecetedMember.id)}
                             > {selecetedMember.role === "MEMBER" ? "Promote to Admin" : "Demote to Member"} </button>
-                            <button className="bg-rose-700 py-2 px-4 rounded-2xl cursor-pointer"
-                            onClick={() => handleKick(selecetedMember.id)}
+                            <button className="dark:bg-rose-700 bg-rose-400 py-2 px-4 rounded-2xl cursor-pointer"
+                            onClick={() => setOpen(true)}
                             >
                                 Kick
                             </button>
@@ -140,7 +142,14 @@ export default function Members () {
                     </div>
                 )}
             </div>
-
+                <ConfirmationModal 
+                context="Kick" 
+                title={selecetedMember ? selecetedMember?.user.username : ""} 
+                onConfirm={() => {
+                    if (!selecetedMember) return
+                    handleKick(selecetedMember.id)}} 
+                onClose={() => setOpen(false)} 
+                open={open}/>
         </div>
     )
 }

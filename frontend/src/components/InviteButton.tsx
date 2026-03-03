@@ -33,11 +33,11 @@ export default function InviteButton ({id, username, projectId}: InviteProps) {
     }
 
     return (
-        <div className="bg-slate-800 py-3 rounded-2xl w-full flex justify-around items-center"
+        <div className="dark:bg-slate-800 bg-gray-200 py-3 rounded-2xl w-full flex justify-around items-center"
         key={id}
         >
                 <p className="font-semibold text-2xl"> {username} </p>
-                <button className={`${invited ? 'bg-slate-700'  :'bg-rose-600 hover:bg-rose-500'} px-4 rounded-2xl font-semibold cursor-pointer`}
+                <button className={`${invited ? 'dark:bg-slate-700 bg-gray-300'  :'dark:bg-rose-600 dark:hover:bg-rose-500 bg-rose-500 hover:bg-rose-400'} px-4 rounded-2xl font-semibold cursor-pointer`}
                 onClick={handleInvite}
                 > {invited ? 'Invited' : 'Invite'} </button>
         </div>

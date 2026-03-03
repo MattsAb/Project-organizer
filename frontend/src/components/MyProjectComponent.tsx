@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom"
 import type { MyProjectType } from "../types/projectTypes"
 import { api } from "../api"
 import axios from "axios"
+import ConfirmationModal from "./ConfirmationModal"
+import { useState } from "react"
 
 type myProjectProps = {
     projectInfo: MyProjectType
@@ -10,6 +12,8 @@ type myProjectProps = {
 
 
 export default function MyProject({projectInfo, canDelete}: myProjectProps) {
+
+    const [openModal, setOpenModal] = useState(false)
 
     const navigate = useNavigate()
 
@@ -41,11 +45,12 @@ export default function MyProject({projectInfo, canDelete}: myProjectProps) {
                 <p className="font-semibold"> Members: {projectInfo._count.members}</p>
             </button>
             { canDelete && (
-            <button className="dark:bg-rose-700 active:dark:bg-rose-500 flex-1 mx-5 py-5 rounded-2xl font-semibold cursor-pointer"
-            onClick={handleDelete}
+            <button className="dark:bg-rose-700 bg-rose-400 flex-1 mx-5 py-5 rounded-2xl font-semibold cursor-pointer"
+            onClick={() => setOpenModal(!openModal)}
             >
                 Delete
             </button>)}
+            <ConfirmationModal context={"delete"} title={projectInfo.title} open={openModal} onClose={() => setOpenModal(false)} onConfirm={handleDelete}/>
         </div>
     )
 }

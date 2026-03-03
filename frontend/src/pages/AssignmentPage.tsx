@@ -39,11 +39,11 @@ export default function AssignmentPage () {
 
     return (
         <div className="flex justify-center">
-            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 px-5 py-10 rounded-3xl w-1/2">
+            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-200 px-5 py-10 rounded-3xl w-1/2">
                 <h1 className="text-3xl font-semibold"> {assignmentInfo?.title} </h1>
                 <div className="flex flex-col items-center mt-10 text-2xl gap-10">
                     <p> {assignmentInfo?.description} </p>
-                    <p className="bg-slate-700 p-5 rounded-3xl"> Due date: {assignmentInfo?.dueDate.split("T")[0]} </p>
+                    <p className="dark:bg-slate-700 bg-gray-300 p-5 rounded-3xl"> Due date: {assignmentInfo?.dueDate.split("T")[0]} </p>
 
                 <div className="flex items-center gap-2 justify-center">
                     <p> Status: </p>
@@ -60,7 +60,7 @@ export default function AssignmentPage () {
                     <div className="flex items-center">
                     {assignmentInfo?.assignees.length !== 0 && (
                         assignmentInfo?.assignees.map((assignee) => (
-                            <p className="font-semibold bg-slate-700 py-2 px-4 rounded-2xl text-center mx-1" key={assignee.id}> {assignee.user.username} </p>
+                            <p className="font-semibold bg-gray-300 dark:bg-slate-700 py-2 px-4 rounded-2xl text-center mx-1" key={assignee.id}> {assignee.user.username} </p>
                         ))
                     )}
                     </div>
@@ -68,7 +68,7 @@ export default function AssignmentPage () {
                 <div className="flex w-2/3 items-center justify-center gap-5 mt-10">
 
                     { membership !== "MEMBER" && ( 
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                         onClick={() => {
                             handleDelete(assignmentInfo?.projectId, assignmentInfo?.id)
                             navigate('/');
@@ -79,7 +79,7 @@ export default function AssignmentPage () {
                     )}
 
                     { membership  !== "MEMBER" && assignmentInfo?.status !== "DONE" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                         onClick={() =>  {
                             handleFinsih(assignmentInfo?.projectId, assignmentInfo?.id)
                             navigate('/');
@@ -90,7 +90,7 @@ export default function AssignmentPage () {
                     )}
                     
                     { membership !== "MEMBER" && assignmentInfo?.status === "IN_PROGRESS" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                         onClick={() =>  {
                             handleDecline(assignmentInfo?.projectId, assignmentInfo?.id)
                             navigate('/');
@@ -101,7 +101,7 @@ export default function AssignmentPage () {
                     )}
 
                     { isAssigned && assignmentInfo?.status === "TODO" && (
-                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
                         onClick={() => {
                             handleProcess(assignmentInfo?.projectId, assignmentInfo?.id)
                             navigate('/');

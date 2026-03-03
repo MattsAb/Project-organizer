@@ -109,7 +109,7 @@ export default function CreateAssignment () {
             <label className="text-xl font-semibold">Due date</label>
 
             <input
-              type='datetime-local'
+              type='date'
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -141,9 +141,8 @@ export default function CreateAssignment () {
               <button
                 key={member.userId}
                 className={`
-                  bg-slate-200
                   py-2 rounded-2xl text-2xl font-semibold cursor-pointer
-                  ${selectedMembers.includes(member.userId) ? "dark:bg-rose-500" : "dark:bg-slate-800"}
+                  ${selectedMembers.includes(member.userId) ? "dark:bg-rose-500 bg-rose-400" : "dark:bg-slate-800 bg-gray-200"}
                 `}
                 onClick={() => {
                   setSelectedMembers((prev) =>

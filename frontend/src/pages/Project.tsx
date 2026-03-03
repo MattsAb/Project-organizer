@@ -55,7 +55,7 @@ export default function Project ({setTitle}: ProjectProps) {
 
     return (
         <div className="flex justify-center min-h-screen text-black dark:text-white">
-                <ActionButtons id={id} membership={membership}/>
+                <ActionButtons id={id} membership={membership} title={title ? title : ""}/>
             <div className="flex items-center">
                 <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
             </div>

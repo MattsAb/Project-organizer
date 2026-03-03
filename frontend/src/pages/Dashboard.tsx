@@ -34,9 +34,9 @@ export default function Dashboard() {
     <div className="flex justify-center min-h-screen text-black dark:text-white">
 
       <div className="flex-2">
-        <div className="bg-slate-200 dark:bg-slate-700 m-10 flex items-center justify-center p-3 rounded-3xl">
-          <p className="font-semibold text-2xl">Pending Projects</p>
-        </div>
+
+          <p className="font-semibold text-3xl flex items-center justify-center my-5">Pending Projects</p>
+
           <div className="flex flex-col w-full">
               {projects.length > 0 && (
                 projects.map((project) => (
@@ -51,9 +51,9 @@ export default function Dashboard() {
       </div>
 
       <div className="flex-1">
-          <div className="bg-slate-200 dark:bg-slate-700 m-10 flex items-center justify-center p-3 rounded-3xl">
-            <p className="font-semibold text-2xl">To do assignments</p>
-          </div>
+
+          <p className="font-semibold text-3xl flex items-center justify-center my-5">To do assignments</p>
+
           <div className="mx-10">
               {assignments.length > 0 && (
                 assignments.map((assignment) => (

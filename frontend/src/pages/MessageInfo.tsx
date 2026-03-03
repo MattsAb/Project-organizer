@@ -49,18 +49,33 @@ export default function MessageInfo() {
 
         }
     }
-
     }
+
+    const goToCreate = () => navigate(`/message/${messageInfo?.senderId}`)
 
     return (
         <div>
-            <p> {messageInfo?.body} </p>
+            <div className="flex flex-col items-center justify-center gap-10">
+                <h1 className="text-2xl font-semibold mt-10"> {messageInfo?.description}</h1>
 
-            <button className="bg-slate-800 p-4 cursor-pointer"
-            onClick={handleDelete}
-            >
-                Delete Message
-            </button>
+                <div className="bg-gray-200 dark:bg-slate-800 p-10 rounded-3xl">
+                    <p> {messageInfo?.body} </p>
+                    <p className="self-end font-semibold text-right mt-5"> by: {messageInfo?.sender.username}</p>
+                </div>
+                <div className="flex gap-5">
+                    <button className="dark:bg-rose-700 bg-rose-500 rounded-2xl p-4 font-semibold cursor-pointer"
+                    onClick={handleDelete}
+                    >
+                        Delete message
+                    </button>
+                    <button className="dark:bg-rose-700 bg-rose-500 rounded-2xl p-4 font-semibold cursor-pointer"
+
+                    onClick={goToCreate}
+                    >
+                        Send message
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }

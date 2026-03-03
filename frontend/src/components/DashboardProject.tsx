@@ -18,9 +18,9 @@ export default function DashboardProject({
   const remainingCount = assignments.length - 3
 
   return (
-    <div className="bg-slate-200 dark:bg-slate-800 p-5 rounded-3xl flex items-stretch gap-10 mx-10 my-5">
+    <div className="bg-gray-200 dark:bg-slate-800 p-5 rounded-3xl flex items-stretch gap-10 mx-10 my-5">
 
-      <button className="flex flex-col bg-slate-300 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 flex-2 p-5 rounded-2xl justify-around items-center cursor-pointer"
+      <button className="flex flex-col bg-gray-300 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 flex-2 p-5 rounded-2xl justify-around items-center cursor-pointer"
       onClick={() => goToProject(id)}
       >
         <p className="font-semibold text-2xl">{title}</p>
@@ -32,7 +32,7 @@ export default function DashboardProject({
         {visibleAssignments.map((assignment, index) => (
           <button
             key={index}
-            className="bg-slate-300 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 flex flex-col gap-2 p-3 rounded-2xl cursor-pointer"
+            className="bg-gray-300 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 flex flex-col gap-2 p-3 rounded-2xl cursor-pointer"
             onClick={() => goToAssignment(assignment.id, id)}
           >
             <p>{assignment.title}</p>
