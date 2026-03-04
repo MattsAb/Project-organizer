@@ -26,7 +26,7 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
         z-30
       `}
     >
-      <div className="flex flex-col gap-5 my-5 bg-gray-100 dark:bg-slate-900 rounded-3xl py-4">
+      <div className="flex flex-col gap-5 my-5 bg-gray-100 dark:bg-slate-900 rounded-sm py-4">
         {navItems.map(({ label, icon: Icon, path }) => (
           <button
             key={label}

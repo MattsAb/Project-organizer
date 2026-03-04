@@ -65,7 +65,7 @@ function App() {
 		/>
 		<Sidebar isExpanded={isExpanded}/>
 
-		<div className="pt-18 pl-18 min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+		<div className="pt-18 pl-18 min-h-screen bg-gray-200 dark:bg-gray-900 text-black dark:text-white">
 			<Routes>
 			<Route path="/" element={<Dashboard />} />
 			<Route path="/myprojects" element={<MyProjects/>}/>

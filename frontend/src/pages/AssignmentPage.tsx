@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import type { AssignmentType } from "../types/assignmentTypes"
 import { useParams } from "react-router-dom"
 import { api } from "../api";
@@ -19,29 +19,41 @@ export default function AssignmentPage () {
 
     const isAssigned = assignmentInfo?.assignees.some(a => a.user.id === user?.id)
 
-    useEffect(() => {
-        const getInfo = async () => {
-            try {
-                const response = await api.get(`/assignment/${projectId}/info/${id}`);
-                setAssignmentInfo(response.data.assignment);
-                setMembership (response.data.membership);
-            } catch (err: unknown) {
+    const getInfo = async () => {
+        try {
+            const response = await api.get(`/assignment/${projectId}/info/${id}`);
+            setAssignmentInfo(response.data.assignment);
+            setMembership(response.data.membership);
+        } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
-                console.log(backendMessage);
-                setErrorMessage(backendMessage)
+                setErrorMessage(backendMessage);
             } else {
                 console.log("Unexpected error", err);
             }
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/assignment/${projectId}/info/${id}`);
+                setAssignmentInfo(response.data.assignment);
+                setMembership(response.data.membership);
+            } catch (err: unknown) {
+                if (axios.isAxiosError(err)) {
+                    setErrorMessage(err.response?.data?.message ?? err.message);
+                }
             }
-        } 
-        getInfo()
-    }, [projectId, id]);
+        };
+
+        fetchData();
+    }, [projectId, id]); 
 
     return (
         <div className="flex justify-center">
             { assignmentInfo &&
-            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-200 px-5 py-10 rounded-3xl w-1/2">
+            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-200 px-5 py-10 rounded-xl w-1/2">
                 <h1 className="text-3xl font-semibold"> {assignmentInfo?.title} </h1>
                 <div className="flex flex-col items-center mt-10 text-2xl gap-10">
                     <p> {assignmentInfo?.description} </p>
@@ -69,7 +81,9 @@ export default function AssignmentPage () {
                 </div>
 
                 <div className="flex w-2/3 items-center justify-center gap-5 mt-10">
-                    <AssignmentButtons 
+                    <AssignmentButtons
+                    goBack={true}
+                    onSuccess={getInfo}
                     membership={membership}
                     status={assignmentInfo.status}
                     title={assignmentInfo.title}

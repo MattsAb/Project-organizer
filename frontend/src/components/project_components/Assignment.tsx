@@ -12,9 +12,11 @@ export default function Assignment ({assignment, setDetails}: AssignmentProps) {
     const formattedDate = date.toISOString().split("T")[0]
 
     return (
-        <button className={`bg-slate-200 dark:bg-slate-700 p-4 w-full rounded-3xl flex cursor-pointer flex-col gap-3 text-left 
+        <button className={`bg-slate-50 dark:bg-slate-700 p-4 w-full rounded-sm flex cursor-pointer flex-col gap-3 text-left 
             ${ assignment.status === 'DONE' && 'opacity-50'}`}
-        onClick={() => setDetails(assignment)}
+        onClick={() => {
+            setDetails(assignment)
+        }}
         >
 
             <div className="flex items-center justify-between">
@@ -26,10 +28,10 @@ export default function Assignment ({assignment, setDetails}: AssignmentProps) {
             
             <p> {assignment.description} </p>
 
-            <div className="bg-slate-300 dark:bg-slate-600 font-semibold p-1 rounded-2xl self-baseline px-2">
+            <div className="bg-gray-200 dark:bg-slate-600 font-semibold p-1 rounded-2xl self-baseline px-2">
                 <p> Due By: {`${formattedDate}`} </p>
             </div>
-            <div className="bg-rose-300 dark:bg-rose-800 font-semibold p-1 rounded-2xl self-end px-2">
+            <div className="bg-rose-300 dark:bg-rose-800 font-semibold p-1 rounded-sm self-end px-2">
                 <div> Assigned to: {assignment.assignees.map((assignee) => (
                     <p key={assignee.id}> {assignee.user.username}</p>
                 ))}</div>

@@ -35,7 +35,7 @@ export default function ConfirmationModal({
         <div className="flex justify-end gap-4">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-500 font-semibold cursor-pointer" 
+            className="px-5 py-2 rounded-sm bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-500 font-semibold cursor-pointer" 
           >
             Cancel
           </button>
@@ -45,7 +45,7 @@ export default function ConfirmationModal({
               onConfirm()
               onClose()
             }}
-            className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold cursor-pointer"
+            className="px-5 py-2 rounded-sm bg-red-600 hover:bg-red-700 text-white font-semibold cursor-pointer"
           >
             {context}
           </button>

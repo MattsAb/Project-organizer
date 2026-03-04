@@ -35,6 +35,10 @@ export default function MyProjects () {
         getUserProjects()
   }, [errorMessage]);
 
+  const handleDelete = (id: string) => {
+    setMyProjects(prev => prev.filter(p => `${p.id}` !== id))
+}
+
     return (
         <div className="flex flex-col items-center gap-10 w-full">
             <p className="font-bold text-3xl mt-5"> My projects </p>
@@ -46,6 +50,7 @@ export default function MyProjects () {
                     key={project.id}
                     canDelete={true}
                     projectInfo={project}
+                    onDelete={handleDelete}
                 />
                 ))
                 )}
@@ -63,6 +68,7 @@ export default function MyProjects () {
                     key={project.id}
                     canDelete={false}
                     projectInfo={project}
+                    onDelete={handleDelete}
                 />
                 )))}
             </div>

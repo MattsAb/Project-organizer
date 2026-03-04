@@ -13,7 +13,6 @@ type ProjectProps = {
   setTitle: (title: string) => void
 };
 
-
 export default function Project ({setTitle}: ProjectProps) {
 
     const [assignments, setAssignments] = useState<AssignmentType[]>([])
@@ -27,25 +26,42 @@ export default function Project ({setTitle}: ProjectProps) {
 
     const title = searchParams.get("title");
 
-     useEffect(() => {
-        const getProjectAssignments = async () => {
+            const getProjectAssignments = async () => {
             try {
                 const response = await api.get(`/assignment/${id}`);
                 setAssignments(response.data.assignments);
                 setMembership(response.data.membership);
                 setErrorMessage('');
             } catch (err: unknown) {
-            if (axios.isAxiosError(err)) {
-                const backendMessage = err.response?.data?.message ?? err.message;
-                setErrorMessage(backendMessage);
-                console.log(backendMessage);
-            } else {
-                console.log("Unexpected error", err);
-            }
+                if (axios.isAxiosError(err)) {
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    setErrorMessage(backendMessage);
+                    console.log(backendMessage);
+                } else {
+                    console.log("Unexpected error", err);
+                }
             }
         } 
-        getProjectAssignments()
-  }, [id]);
+
+     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get(`/assignment/${id}`);
+                setAssignments(response.data.assignments);
+                setMembership(response.data.membership);
+                setErrorMessage('');
+            } catch (err: unknown) {
+                if (axios.isAxiosError(err)) {
+                    const backendMessage = err.response?.data?.message ?? err.message;
+                    setErrorMessage(backendMessage);
+                    console.log(backendMessage);
+                } else {
+                    console.log("Unexpected error", err);
+                }
+            }
+        } 
+        fetchData()
+        }, [id]);
 
     useEffect(() => {
         if (!title) return
@@ -64,7 +80,7 @@ export default function Project ({setTitle}: ProjectProps) {
                 <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
             </div>
 
-            <div className="flex-2 mx-10 flex flex-col gap-10 my-10">
+            <div className="flex-2 mx-10 flex flex-col gap-5 my-10">
 
             <p className="font-semibold text-2xl"> Assignments </p>
             {assignments.length > 0 &&
@@ -86,7 +102,12 @@ export default function Project ({setTitle}: ProjectProps) {
 
             <div className="flex-3 mx-10 flex flex-col gap-10 my-10">
                 <p className="font-semibold text-2xl"> Details </p>
-                { selectedAssignment && <AssignmentDetails membership={membership} details={selectedAssignment} /> }          
+                { selectedAssignment && <AssignmentDetails  
+                projectId={selectedAssignment.projectId} 
+                assignmentId={selectedAssignment.id}
+                setSelected={setSelectedAssignment}
+                onChange={getProjectAssignments}
+                /> }          
             </div>
 
         </div>

@@ -41,7 +41,7 @@ export default function CreateMessage () {
 
       <div className="w-full max-w-2xl flex flex-col gap-8">
 
-        <div className="flex flex-col gap-3 bg-slate-200 dark:bg-slate-800 p-6 rounded-2xl">
+        <div className="flex flex-col gap-3 bg-slate-200 dark:bg-slate-800 p-6 rounded-xl">
 
           <label className="text-xl font-semibold mb-3">Message {name}</label>
           <label> Description </label>

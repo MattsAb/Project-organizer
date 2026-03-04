@@ -77,7 +77,7 @@ export default function CreateAssignment () {
 
         <div className="w-full max-w-2xl flex flex-col gap-8">
 
-          <div className="flex flex-col gap-3 bg-slate-200 dark:bg-slate-800 p-6 rounded-2xl">
+          <div className="flex flex-col gap-3 bg-slate-50 dark:bg-slate-800 p-6 rounded-sm">
 
             <label className="text-xl font-semibold">Title</label>
             <input
@@ -92,7 +92,7 @@ export default function CreateAssignment () {
           </div>
 
 
-          <div className="flex flex-col gap-3 bg-slate-200 dark:bg-slate-800 p-6 rounded-2xl">
+          <div className="flex flex-col gap-3 bg-slate-50 dark:bg-slate-800 p-6 rounded-sm">
 
             <label className="text-xl font-semibold">Description</label>
 
@@ -142,7 +142,7 @@ export default function CreateAssignment () {
                 key={member.userId}
                 className={`
                   py-2 rounded-2xl text-2xl font-semibold cursor-pointer
-                  ${selectedMembers.includes(member.userId) ? "dark:bg-rose-500 bg-rose-400" : "dark:bg-slate-800 bg-gray-200"}
+                  ${selectedMembers.includes(member.userId) ? "dark:bg-rose-500 bg-rose-400" : "dark:bg-slate-800 bg-gray-50"}
                 `}
                 onClick={() => {
                   setSelectedMembers((prev) =>

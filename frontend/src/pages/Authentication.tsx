@@ -45,7 +45,7 @@ export default function Authentication () {
             <h1 className="font-bold text-3xl my-5">{isRegistered ? 'Log In' : 'Sign Up'}</h1>
             
             <div className="w-full max-w-2xl flex flex-col gap-8">
-                <div className="flex flex-col gap-8 w-full max-w-2xl rounded-3xl bg-slate-200 dark:bg-slate-800 p-10">
+                <div className="flex flex-col gap-8 w-full max-w-2xl rounded-xl bg-gray-50 dark:bg-slate-800 p-10">
                     <input
                         type="text"
                         value={username}
@@ -79,7 +79,7 @@ export default function Authentication () {
 
                 <div className="flex gap-1">
                     <p> {isRegistered ? "don't have an account?" : 'already have an account?'}</p>
-                    <button className="cursor-pointer text-blue-400 active:text-blue-100 hover:text-blue-200"
+                    <button className="cursor-pointer text-blue-500 active:text-blue-300 hover:text-blue-400"
                     onClick={() => setIsRegistered(!isRegistered)}>
                         {isRegistered ? 'Sign Up' : "Log In"}
                     </button>

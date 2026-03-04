@@ -263,18 +263,28 @@ export async function changeRole(req, res) {
 }
 export async function kickMember(req, res) {
     const memberId = Number(req.params.memberId);
+
   try {
-    const member = await prisma.projectMember.delete({
-    where: {
+    const member = await prisma.projectMember.findUnique({
+      where: {
         id: memberId
+      }
+    })
+
+    if (!member) {
+      return res.status(404).json({ message: "Member not found" });
     }
-      })
 
     if (member.role === "OWNER")
     {
       return res.status(403).json("Can't kick the Owner of the project")
     }
 
+    await prisma.projectMember.delete({
+    where: {
+        id: memberId
+    }
+      })
 
     res.status(200).json({success: true})
   } catch (err) {

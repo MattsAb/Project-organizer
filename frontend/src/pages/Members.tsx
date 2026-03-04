@@ -45,7 +45,7 @@ export default function Members () {
     async function handleRoleChange (memberId: number) {
         try {
             await api.put(`/${id}/members/${memberId}/role`)
-            window.location.reload();
+            changeRole(memberId)
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
@@ -59,21 +59,34 @@ export default function Members () {
 
     }
 
+    const changeRole = (memberId: number) => {
+        setMembers(prev => prev.map(m => 
+            m.id === memberId 
+                ? { ...m, role: m.role === 'MEMBER' ? 'ADMIN' : 'MEMBER' } 
+                : m
+        ))
+        setSelectedMember(prev => 
+            prev?.id === memberId 
+                ? { ...prev, role: prev.role === 'MEMBER' ? 'ADMIN' : 'MEMBER' } 
+                : prev
+        )
+    }
+
     async function handleKick(memberId: number) {
         try {
             await api.delete(`/${id}/members/${memberId}/kick`)
-            window.location.reload();
+            setMembers(prev => prev.filter(m => m.id !== memberId))
+            if (selecetedMember?.id === memberId) setSelectedMember(undefined)
+            setOpen(false)
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 const backendMessage = err.response?.data?.message ?? err.message;
                 setErrorMessage(backendMessage);
-            } else 
-            {
+            } else {
                 console.log("Unexpected error", err);
                 setErrorMessage("Unexpected error");
             }
         }
-
     }
 
     const goToMessage = () => {
@@ -92,7 +105,7 @@ export default function Members () {
 
                 {members.length > 0 && (
                     members.map((member) => (
-                        <button className="bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 py-3 rounded-2xl w-1/3 cursor-pointer flex justify-around items-center"
+                        <button className="bg-gray-50 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-700 py-3 rounded-sm w-1/3 cursor-pointer flex justify-around items-center"
                         key={member.id}
                         onClick={() => setSelectedMember(member)}
                         >
@@ -115,13 +128,13 @@ export default function Members () {
             <div className="flex-1 flex flex-col items-center">
                 <p className="font-semibold text-3xl"> Member information </p>
                 {selecetedMember && (
-                    <div className="flex flex-col gap-10 mt-10 items-center text-2xl bg-gray-200 dark:bg-slate-800 py-8 px-16 rounded-3xl">
+                    <div className="flex flex-col gap-10 mt-10 items-center text-2xl bg-gray-50 dark:bg-slate-800 py-8 px-16 rounded-xl">
                         <p> {selecetedMember.user.username} </p>
                         <p> Joined at: {selecetedMember.joinedAt.split("T")[0]} </p>
                         <p> Role: {selecetedMember.role} </p>
 
                         { user?.id !== selecetedMember.user.id &&
-                        <button className="dark:bg-slate-700 bg-gray-300 py-2 px-4 rounded-2xl cursor-pointer"
+                        <button className="dark:bg-slate-700 bg-gray-200 py-2 px-4 rounded-sm cursor-pointer"
                         onClick={goToMessage}>
                             Message
                         </button>
@@ -129,10 +142,10 @@ export default function Members () {
 
                        { membership !== "MEMBER" && selecetedMember.role !== "OWNER" && user?.id !== selecetedMember.user.id && (
                         <div className="flex flex-col gap-10">
-                            <button className="dark:bg-slate-700 bg-gray-300 py-2 px-4 rounded-2xl cursor-pointer"
+                            <button className="dark:bg-slate-700 bg-gray-200 py-2 px-4 rounded-sm cursor-pointer"
                             onClick={() => handleRoleChange(selecetedMember.id)}
                             > {selecetedMember.role === "MEMBER" ? "Promote to Admin" : "Demote to Member"} </button>
-                            <button className="dark:bg-rose-700 bg-rose-400 py-2 px-4 rounded-2xl cursor-pointer"
+                            <button className="dark:bg-rose-700 bg-rose-400 py-2 px-4 rounded-sm cursor-pointer"
                             onClick={() => setOpen(true)}
                             >
                                 Kick

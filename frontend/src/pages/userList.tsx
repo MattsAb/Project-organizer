@@ -63,12 +63,12 @@ export default function Members () {
                 <p className="font-bold text-3xl"> Search</p>
 
                 <div className="w-full flex items-center gap-3">
-                    <input className="dark:bg-slate-800 bg-gray-200 p-2 rounded-2xl w-full"
+                    <input className="dark:bg-slate-800 bg-gray-50 p-2 rounded-2xl w-full"
                     placeholder="Search users..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     />
-                    <button className="dark:bg-slate-700 active:dark:bg-slate-600  bg-gray-200 active:bg-gray-300 px-4 py-2 rounded-2xl cursor-pointer"
+                    <button className="dark:bg-slate-700 active:dark:bg-slate-600  bg-gray-50 active:bg-gray-100 px-4 py-2 rounded-2xl cursor-pointer"
                     onClick={handleSearch}>
                         Search
                     </button>

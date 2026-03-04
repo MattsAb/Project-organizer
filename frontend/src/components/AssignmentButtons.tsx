@@ -3,6 +3,7 @@ import type { ProjectRole } from "../types/projectTypes"
 import type { AssignmentStatus } from "../types/assignmentTypes";
 import ConfirmationModal from "./simple_components/ConfirmationModal";
 import { handleProcess } from "../hooks/assignmentHook";
+import { useNavigate } from "react-router-dom";
 
 type AssignmentButtonsProps = {
     membership: ProjectRole
@@ -11,16 +12,20 @@ type AssignmentButtonsProps = {
     assignmentId: number
     isAssigned: boolean
     title: string
+    goBack: boolean
+    onSuccess: () => void
 }
 
-export default function AssignmentButtons ({membership, status, projectId, assignmentId, isAssigned, title}: AssignmentButtonsProps) {
+export default function AssignmentButtons ({membership, status, projectId, assignmentId, isAssigned, title, goBack, onSuccess}: AssignmentButtonsProps) {
 
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+    
 
     return (
         <>
         { membership !== "MEMBER" && ( 
-            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
+            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-400 active:bg-rose-500 font-semibold p-3 w-2/5 rounded-sm cursor-pointer"
             onClick={() => setOpen(true)}
             >
                 Delete
@@ -28,24 +33,31 @@ export default function AssignmentButtons ({membership, status, projectId, assig
         )}
 
         { membership !== "MEMBER" && status !== "DONE" && (
-            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-            onClick={() =>  handleProcess("put",`${projectId}/finish/${assignmentId}`)}
+            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-400 active:bg-rose-500 font-semibold p-3 w-2/5 rounded-sm cursor-pointer"
+            onClick={async () => {await handleProcess("put",`${projectId}/finish/${assignmentId}`)
+            if (goBack) navigate('/');
+            else onSuccess();
+            }}
             >
                 Complete
             </button>
         )}
 
         { membership !== "MEMBER" && status === "IN_PROGRESS" && (
-            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-            onClick={() =>  handleProcess("put",`${projectId}/decline/${assignmentId}`)}
+            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-400 active:bg-rose-500 font-semibold p-3 w-2/5  rounded-sm cursor-pointer"
+            onClick={async () =>  { await handleProcess("put",`${projectId}/decline/${assignmentId}`)
+            onSuccess();
+        }}
             >
                 Decline
             </button>
         )}
 
         { isAssigned && status === "TODO" && (
-            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-500 active:bg-rose-400 font-semibold p-3 w-1/4 rounded-2xl cursor-pointer"
-            onClick={() => handleProcess("put",`${projectId}/process/${assignmentId}`)}
+            <button className="dark:bg-rose-700 active:dark:bg-rose-500 bg-rose-400 active:bg-rose-500 font-semibold p-3 w-2/5  rounded-sm cursor-pointer"
+            onClick={ async () => {await handleProcess("put",`${projectId}/process/${assignmentId}`)
+            onSuccess();
+            }}
             >
                 set to progress
             </button>
@@ -53,7 +65,12 @@ export default function AssignmentButtons ({membership, status, projectId, assig
 
     <ConfirmationModal
     onClose={() => setOpen(false)}
-    onConfirm={() => handleProcess("delete",`${projectId}/delete/${assignmentId}`)}
+    onConfirm={async () => {await handleProcess("delete",`${projectId}/delete/${assignmentId}`)
+    if (goBack) navigate('/');
+    else {
+        onSuccess()
+    }
+    }}
     context="delete"
     title={title}
     open={open}

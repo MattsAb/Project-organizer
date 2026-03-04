@@ -42,21 +42,21 @@ export default function ActionButtons ({id, membership, title}: actionButtonsTyp
             <p className="font-semibold text-2xl"> actions</p>
             
             { membership !== "MEMBER" && (
-                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
+                <button className="bg-slate-50 hover:bg-slate-100  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
                 onClick={gotoCreate}
                 >
                     Add assignment
                 </button>
             )}
 
-            <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
+            <button className="bg-slate-50 hover:bg-slate-100  dark:bg-slate-800 dark:hover:bg-slate-700 p-3 rounded-2xl cursor-pointer"
             onClick={goToMembers}
             >
                 Project members
             </button>
 
             { membership !== "MEMBER" && (
-                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
+                <button className="bg-slate-50 hover:bg-slate-100  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
                 onClick={(goToUserList)}
                 >
                     Add new members
@@ -64,7 +64,7 @@ export default function ActionButtons ({id, membership, title}: actionButtonsTyp
             )}
 
             { membership !== "OWNER" && (
-                <button className="bg-slate-200 hover:bg-slate-300  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
+                <button className="bg-slate-50 hover:bg-slate-100  dark:bg-slate-800 dark:hover:bg-slate-700  p-3 rounded-2xl cursor-pointer"
                 onClick={() => setOpen(true)}
                 >
                     Leave project

@@ -32,7 +32,7 @@ export default function InviteButton ({id, username, projectId}: InviteProps) {
     }
 
     return (
-        <div className="dark:bg-slate-800 bg-gray-200 py-3 rounded-2xl w-full flex justify-around items-center"
+        <div className="dark:bg-slate-800 bg-gray-50 py-3 rounded-xl w-full flex justify-around items-center"
         key={id}
         >
                 <p className="font-semibold text-2xl"> {username} </p>
