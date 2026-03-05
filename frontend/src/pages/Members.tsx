@@ -105,7 +105,7 @@ export default function Members () {
 
                 {members.length > 0 && (
                     members.map((member) => (
-                        <button className="bg-gray-50 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-700 py-3 rounded-sm w-1/3 cursor-pointer flex justify-around items-center"
+                        <button className="bg-gray-50 hover:bg-gray-100 dark:bg-slate-800 dark:hover:bg-slate-700 py-3 rounded-sm w-1/3 min-w-75 cursor-pointer flex justify-around items-center"
                         key={member.id}
                         onClick={() => setSelectedMember(member)}
                         >
@@ -120,6 +120,8 @@ export default function Members () {
                 )}
                 <ErrorComponent message={errorMessage}/>
             </div>
+
+            <div className="flex-1 md:flex hidden">
 
             <div className="flex items-center h-screen">
                 <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
@@ -154,6 +156,7 @@ export default function Members () {
                         )}
                         
                     </div>
+                    
                 )}
             </div>
                 <ConfirmationModal 
@@ -164,6 +167,7 @@ export default function Members () {
                     handleKick(selecetedMember.id)}} 
                 onClose={() => setOpen(false)} 
                 open={open}/>
+                </div>
         </div>
     )
 }

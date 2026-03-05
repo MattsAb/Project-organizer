@@ -21,7 +21,7 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
          dark:bg-slate-800 border-r-2 border-gray-300 dark:border-slate-900 bg-white
          text-black dark:text-white
         transition-all duration-300
-        ${isExpanded ? "w-64 px-4" : "w-16 px-2"}
+        ${isExpanded ? "w-64 px-4" : "w-16 px-2 hidden md:block"}
         flex flex-col
         z-30
       `}

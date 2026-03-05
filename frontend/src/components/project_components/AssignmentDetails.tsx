@@ -56,8 +56,8 @@ export default function AssignmentDetails ({projectId, assignmentId, onChange, s
         <div className="bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl flex flex-col items-center text-2xl font-semibold gap-10 text-center">
              { assignmentInfo && (
             <>
-            <p className="font-semibold text-3xl"> {assignmentInfo.title} </p>
-            <p className="text-2xl"> {assignmentInfo.description}</p>
+            <p className="font-semibold text-3xl max-w-[90%] wrap-break-word"> {assignmentInfo.title} </p>
+            <p className="text-2xl wrap-break-word text-left w-[80%]"> {assignmentInfo.description}</p>
             <p> Due by: {assignmentInfo.dueDate.split("T")[0]}</p>
             <div className="flex items-center gap-2 justify-center">
                 <p> Status: </p>
@@ -81,7 +81,7 @@ export default function AssignmentDetails ({projectId, assignmentId, onChange, s
 
             <ErrorComponent message={errorMessage}/>
 
-            <div className="flex w-full items-center justify-center gap-5">
+            <div className="flex w-full flex-col lg:flex-row items-center justify-center gap-2">
                 <AssignmentButtons
                 goBack={false}
                 onSuccess={() => {

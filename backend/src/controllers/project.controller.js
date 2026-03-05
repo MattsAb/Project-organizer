@@ -59,7 +59,7 @@ export async function createProject(req, res) {
   if (!title || !description) {
     return res.status(400).json({
       success: false,
-      msg: "please provide all requested information"
+      message: "please provide all requested information"
     })
   }
 
@@ -91,7 +91,7 @@ export async function createProject(req, res) {
     console.error(err)
     return res.status(500).json({
       success: false,
-      msg: "internal server error"
+      message: "internal server error"
     })
   }
 }
@@ -243,6 +243,8 @@ export async function changeRole(req, res) {
     }
       })
 
+    if (!member) return res.status(404).json({ message: "Member not found" })
+
     if (member.role === "OWNER")
     {
       return res.status(403).json("Can't demote the Owner of the project")
@@ -324,12 +326,12 @@ export async function leaveProject(req, res) {
 
 export async function deleteProject(req, res) {
 
-  const projectrId = Number(req.params.id);
+  const projectId = Number(req.params.id);
 
   try {
      await prisma.project.delete({
       where: {
-        id: projectrId
+        id: projectId
       }
     })
 

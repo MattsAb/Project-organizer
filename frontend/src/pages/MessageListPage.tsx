@@ -37,7 +37,7 @@ const goToMessage = (id: number) => navigate(`/messageinfo/${id}`)
         <div className="flex flex-col items-center w-full">
             <p className="font-bold text-3xl my-10"> Messages </p>
             {messages.length > 0 && (
-            <div className="dark:bg-slate-800 bg-slate-50 w-1/2 flex flex-col items-center rounded-xl py-5">
+            <div className="dark:bg-slate-800 bg-slate-50 w-2/3 flex flex-col items-center rounded-xl py-5">
                    { messages.map((message) => (
                         <button className="dark:bg-slate-700 bg-gray-200 px-4 py-4 m-2 w-2/3 rounded-sm flex items-center text-2xl gap-4 cursor-pointer" key={message.id}
                         onClick={() => goToMessage(message.id)}> 

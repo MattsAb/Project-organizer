@@ -129,7 +129,6 @@ export default function CreateAssignment () {
         </div>
         
       </div>
-          
         <div className="flex items-center">
           <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
         </div>

@@ -73,14 +73,14 @@ export default function Project ({setTitle}: ProjectProps) {
     })
 
     return (
-        <div className="flex justify-center min-h-screen text-black dark:text-white">
+        <div className="flex justify-center min-h-screen text-black dark:text-white ">
             <ActionButtons id={id} membership={membership} title={title ? title : ""}/>
 
             <div className="flex items-center">
                 <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
             </div>
 
-            <div className="flex-2 mx-10 flex flex-col gap-5 my-10">
+            <div className="flex-2 mx-10 flex flex-col gap-5 my-10 md:min-w-[30%] min-w-[50%]">
 
             <p className="font-semibold text-2xl"> Assignments </p>
             {assignments.length > 0 &&
@@ -100,7 +100,7 @@ export default function Project ({setTitle}: ProjectProps) {
                 <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
             </div>
 
-            <div className="flex-3 mx-10 flex flex-col gap-10 my-10">
+            <div className="hidden lg:flex flex-col gap-10 mx-10 my-10 min-w-[40%]">
                 <p className="font-semibold text-2xl"> Details </p>
                 { selectedAssignment && <AssignmentDetails  
                 projectId={selectedAssignment.projectId} 

@@ -58,7 +58,7 @@ export default function Members () {
     return (
         <div className="flex mt-10 items-center justify-center">
 
-            <div className="flex flex-col items-center gap-5 w-1/4">
+            <div className="flex flex-col max-w-[30%] min-w-120 items-center gap-5 w-full px-10">
 
                 <p className="font-bold text-3xl"> Search</p>
 
