@@ -2,6 +2,7 @@ import {prisma} from '../prismaClient.js';
 
 export async function getUserProjects(req, res) {
   const userId = req.userId
+
   try {
 
     const myProjects = await prisma.project.findMany({
@@ -56,15 +57,8 @@ export async function getUserProjects(req, res) {
 export async function createProject(req, res) {
   const { title, description } = req.body
 
-  if (!title || !description) {
-    return res.status(400).json({
-      success: false,
-      message: "please provide all requested information"
-    })
-  }
-
   try {
-    await prisma.$transaction(async (tx) => {
+    const project = await prisma.$transaction(async (tx) => {
 
       const project = await tx.project.create({
         data: {
@@ -85,7 +79,7 @@ export async function createProject(req, res) {
       return project
     })
 
-    return res.status(201).json({success: true})
+    return res.status(201).json({id: project.id, title: project.title})
 
   } catch (err) {
     console.error(err)
@@ -98,7 +92,7 @@ export async function createProject(req, res) {
 
 export async function getProjectMembers(req, res) {
 
-    const projectId = Number(req.params.id);
+    const projectId = req.params.id;
 
   try {
     const members = await prisma.projectMember.findMany({
@@ -120,7 +114,7 @@ export async function getProjectMembers(req, res) {
 }
 
 export async function getUsers(req, res) {
-  const projectId = Number(req.params.id);
+  const projectId = req.params.id;
 
   try {
     const users = await prisma.user.findMany({
@@ -233,7 +227,7 @@ export async function getDashboard(req, res) {
 
 export async function changeRole(req, res) {
 
-    const memberId = Number(req.params.memberId);
+    const memberId = req.params.memberId;
 
   try {
 
@@ -264,7 +258,7 @@ export async function changeRole(req, res) {
   }
 }
 export async function kickMember(req, res) {
-    const memberId = Number(req.params.memberId);
+    const memberId = req.params.memberId;
 
   try {
     const member = await prisma.projectMember.findUnique({
@@ -296,7 +290,7 @@ export async function kickMember(req, res) {
 }
 
 export async function leaveProject(req, res) {
-  const projectId = Number(req.params.id)
+  const projectId = req.params.id
   const userId = req.userId
 
     if(req.membership === "OWNER")
@@ -326,7 +320,7 @@ export async function leaveProject(req, res) {
 
 export async function deleteProject(req, res) {
 
-  const projectId = Number(req.params.id);
+  const projectId = req.params.id;
 
   try {
      await prisma.project.delete({

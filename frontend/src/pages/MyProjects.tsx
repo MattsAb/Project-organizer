@@ -43,7 +43,7 @@ export default function MyProjects () {
         <div className="flex flex-col items-center gap-10 w-full">
             <p className="font-bold text-3xl mt-5"> My projects </p>
 
-            <div className="w-1/2 flex flex-col gap-10">
+            <div className="w-2/3 md:w-1/2 flex flex-col gap-10">
                 {myProjects.length > 0 && (
                myProjects.map((project) => (
                 <MyProject
@@ -61,7 +61,7 @@ export default function MyProjects () {
 
             {memberProjects.length > 0 && <p className="font-bold text-3xl mt-5"> Projects you are a part of</p>}
 
-            <div className="w-1/2 flex flex-col gap-5 mb-10">
+            <div className="w-2/3 md:w-1/2 flex flex-col gap-5 mb-10">
                 {memberProjects.length > 0 && (
                memberProjects.map((project) => (
                 <MyProject

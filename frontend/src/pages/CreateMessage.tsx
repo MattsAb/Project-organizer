@@ -21,7 +21,7 @@ export default function CreateMessage () {
             body,
             description
           })
-          navigate('/');
+          navigate(-1);
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
               const backendMessage = err.response?.data?.message ?? err.message;
@@ -48,7 +48,7 @@ export default function CreateMessage () {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            maxLength={60}
+            maxLength={50}
             rows={2}
             placeholder="Message description"
             className="bg-slate-100 dark:bg-slate-700 rounded-xl border border-slate-500 p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"

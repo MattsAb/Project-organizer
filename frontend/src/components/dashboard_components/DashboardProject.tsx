@@ -18,13 +18,13 @@ export default function DashboardProject({
   const remainingCount = assignments.length - 3
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-800 p-5 rounded-xl flex items-stretch gap-10 mx-10 my-5">
+    <div className="bg-gray-50 dark:bg-slate-800 p-5 rounded-xl flex items-stretch gap-10 mx-5 my-5">
 
       <button className="gap-2 flex flex-col min-w-0 bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 flex-2 p-5 rounded-sm justify-around items-center cursor-pointer"
       onClick={() => goToProject(id)}
       >
         <p className="font-semibold text-2xl wrap-break-word w-full">{title}</p>
-        <p className="text-2xl wrap-break-word w-full">{description}</p>
+        <p className="md:text-2xl wrap-break-word w-full">{description}</p>
       </button>
 
       <div className="flex flex-col gap-2 flex-1 min-w-[30%]">

@@ -63,7 +63,7 @@ function App() {
 		setIsExpanded={() => setIsExpanded(!isExpanded)} 
 		notifications={notifications}
 		/>
-		<Sidebar isExpanded={isExpanded}/>
+		<Sidebar  onClose={() => setIsExpanded(false)} isExpanded={isExpanded}/>
 
 		<div className="pt-18 md:pl-18 min-h-screen bg-gray-200 dark:bg-gray-900 text-black dark:text-white">
 			<Routes>

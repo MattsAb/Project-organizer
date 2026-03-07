@@ -24,11 +24,11 @@ export default function CreateAssignment () {
           await api.post(`/assignment/create/${id}`, {
             title: title,
             description: description,
-            dueDate:  new Date(dueDate),
+            dueDate:  dueDate ? new Date(dueDate) : null,
             assignees: selectedMembers
           })
 
-          navigate(`/project/${id}`);
+          navigate(-1);
           
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
@@ -118,6 +118,7 @@ export default function CreateAssignment () {
                 onClick={getMembers}>
                   Assign members
               </button>
+
               <ErrorComponent message={errorMessage}/>
           </div>
 
@@ -129,13 +130,16 @@ export default function CreateAssignment () {
         </div>
         
       </div>
-        <div className="flex items-center">
+
+        {membersShown && <div className="flex items-center">
           <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
-        </div>
+        </div>}
 
       { membersShown && (
-      <div className="flex-1 flex">
-          <div className="w-full flex flex-col gap-5 mx-10 mt-15">
+      <div className="flex fixed lg:static lg:z-0 lg:bg-black/0 lg:items-baseline lg:justify-baseline
+       z-50 bg-black/60 items-center justify-center inset-0">
+          <div className=" flex flex-col gap-5 mx-10 mt-15 w-1/4 min-w-100 bg-gray-200 dark:bg-slate-700 lg:bg-black/0 p-5 rounded-lg">
+           <h1 className="items-center text-center font-semibold text-2xl"> Member list</h1>
             {members.map((member) => (
               <button
                 key={member.userId}
@@ -154,6 +158,12 @@ export default function CreateAssignment () {
                 {member.user.username}
               </button>
             ))}
+
+            <button className="dark:bg-rose-700 bg-rose-500 font-semibold self-baseline py-2 px-5 rounded-lg cursor-pointer lg:hidden flex"
+            onClick={() => setMembersShown(false)}
+            >
+              close
+            </button>
           </div>
       </div>)}
 

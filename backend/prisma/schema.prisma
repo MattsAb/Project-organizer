@@ -78,7 +78,7 @@ model Assignment {
   title       String
   description String?
   status      AssignmentStatus  @default(TODO)
-  dueDate     DateTime?
+  dueDate     DateTime
   createdAt   DateTime          @default(now())
 
   projectId   Int

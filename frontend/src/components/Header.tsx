@@ -37,7 +37,7 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
 }, [])
 
     return (
-        <div className="bg-white dark:bg-slate-800  fixed left-0 right-0 h-18 border-b-2 dark:border-slate-900 border-gray-300 flex dark:text-white text-black z-30">
+        <div className="bg-white dark:bg-slate-800  fixed left-0 right-0 h-18 border-b-2 dark:border-slate-900 border-gray-300 flex dark:text-white text-black z-50">
             <div className="w-full flex items-center ">
                 <button className=" active:bg-gray-200 dark:active:bg-slate-700 rounded-full p-2 mx-2 cursor-pointer"
                 onClick={setIsExpanded}
@@ -47,7 +47,7 @@ export default function Header ({setIsExpanded, user, notifications, title}: Hea
             </div>
 
             <div className="w-full flex items-center">
-                <h1 className='font-bold text-3xl'> {title} </h1>
+                <h1 className='font-bold lg:text-3xl md:text-2xl hidden sm:block'> {title} </h1>
             </div>
 
             {user ? (

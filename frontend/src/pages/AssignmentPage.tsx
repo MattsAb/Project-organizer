@@ -53,7 +53,7 @@ export default function AssignmentPage () {
     return (
         <div className="flex justify-center">
             { assignmentInfo &&
-            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-200 px-5 py-10 rounded-xl md:w-1/2 w-2/3">
+            <div className="flex flex-col items-center mt-10 dark:bg-slate-800 bg-gray-100 px-5 py-10 rounded-xl md:w-1/2 w-2/3">
                 <h1 className="text-3xl font-semibold wrap-break-word w-full text-center"> {assignmentInfo?.title} </h1>
                 <div className="flex flex-col items-center mt-10 text-2xl gap-10 w-full">
                     <p className="max-w-[90%] wrap-break-word"> {assignmentInfo?.description} </p>

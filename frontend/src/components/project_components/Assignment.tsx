@@ -32,7 +32,7 @@ export default function Assignment ({assignment, setDetails}: AssignmentProps) {
         >
 
             <div className="flex items-center justify-between">
-                <p className="font-semibold text-2xl wrap-break-word max-w-[80%]"> {assignment.title} </p>
+                <p className="font-semibold text-2xl wrap-break-word max-w-[50%]"> {assignment.title} </p>
                 { assignment.status === 'DONE' && <p className=" bg-green-500 rounded-2xl px-2"> Completed </p>}
                 { assignment.status === 'IN_PROGRESS' && <p className="text-green-600 dark:text-green-300 font-semibold"> Pending </p>}
             </div>

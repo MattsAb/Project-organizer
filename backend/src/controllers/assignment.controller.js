@@ -1,7 +1,7 @@
 import {prisma} from '../prismaClient.js';
 
 export async function getAssignments(req, res) {
-    const projectId = Number(req.params.id);
+    const projectId = req.params.id;
 
   try {
         const assignments = await prisma.assignment.findMany({
@@ -37,7 +37,12 @@ export async function getAssignments(req, res) {
 
 export async function createAssignment(req, res) {
   const { title, description, assignees, dueDate } = req.body
-  const projectId = Number(req.params.id)
+  const projectId = req.params.id
+
+  if (dueDate === null)
+  {
+    return res.status(400).json({success: false, message: "Please select a due date"})
+  }
 
   if (!title || assignees.length === 0) {
     return res.status(400).json({
@@ -78,7 +83,7 @@ export async function createAssignment(req, res) {
 }
 
 export async function getInfo(req, res) {
-  const assignmentId = Number(req.params.id);
+  const assignmentId = req.params.id;
 
   try {
     const assignment = await prisma.assignment.findUnique({
@@ -103,7 +108,7 @@ export async function getInfo(req, res) {
 }
 
 export async function setProcess(req, res) {
-  const assignmentId = Number(req.params.id);
+  const assignmentId = req.params.id;
   const userId = req.userId;
 
   try {
@@ -126,7 +131,7 @@ export async function setProcess(req, res) {
       return res.status(403).json({ message: "You are not assigned to this task" });
     }
 
-    const updatedAssignment = await prisma.assignment.update({
+    await prisma.assignment.update({
       where: { id: assignmentId },
       data: {
         status: "IN_PROGRESS"
@@ -145,8 +150,7 @@ export async function setProcess(req, res) {
 }
 
 export async function setFinish(req, res) {
-  const assignmentId = Number(req.params.id);
-  const userId = req.userId;
+  const assignmentId = req.params.id;
 
   try {
     const assignment = await prisma.assignment.findUnique({
@@ -172,8 +176,7 @@ export async function setFinish(req, res) {
 }
 
 export async function declineAssignment(req, res) {
-  const assignmentId = Number(req.params.id);
-  const userId = req.userId;
+  const assignmentId = req.params.id;
 
   try {
     const assignment = await prisma.assignment.findUnique({
@@ -204,7 +207,7 @@ export async function declineAssignment(req, res) {
 
 export async function deleteAssignment(req, res) {
 
-  const assignmnetId = Number(req.params.id);
+  const assignmnetId = req.params.id;
 
   try {
      await prisma.assignment.delete({

@@ -120,16 +120,13 @@ export default function Members () {
                 )}
                 <ErrorComponent message={errorMessage}/>
             </div>
+            {selecetedMember && (
+            <div className="flex fixed lg:static lg:z-0 lg:bg-black/0 lg:items-center 
+            z-50 bg-black/60 items-center justify-center inset-0">
 
-            <div className="flex-1 md:flex hidden">
-
-            <div className="flex items-center h-screen">
-                <div className="w-px bg-rose-400 dark:bg-rose-800 h-7/8"></div>
-            </div>
-
-            <div className="flex-1 flex flex-col items-center">
+            <div className="flex-1 flex flex-col items-center mx-5 lg:self-baseline">
                 <p className="font-semibold text-3xl"> Member information </p>
-                {selecetedMember && (
+                
                     <div className="flex flex-col gap-10 mt-10 items-center text-2xl bg-gray-50 dark:bg-slate-800 py-8 px-16 rounded-xl">
                         <p> {selecetedMember.user.username} </p>
                         <p> Joined at: {selecetedMember.joinedAt.split("T")[0]} </p>
@@ -154,10 +151,15 @@ export default function Members () {
                             </button>
                         </div>
                         )}
-                        
+                        <button className="dark:bg-rose-700 bg-rose-500 font-semibold self-baseline py-2 px-5 rounded-lg cursor-pointer lg:hidden flex"
+                        onClick={() => setSelectedMember(undefined)}
+                        >
+                        close
+                        </button>
+            
                     </div>
                     
-                )}
+                
             </div>
                 <ConfirmationModal 
                 context="Kick" 
@@ -167,7 +169,7 @@ export default function Members () {
                     handleKick(selecetedMember.id)}} 
                 onClose={() => setOpen(false)} 
                 open={open}/>
-                </div>
+                </div>)}
         </div>
     )
 }

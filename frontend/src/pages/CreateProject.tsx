@@ -13,12 +13,12 @@ export default function CreateProject () {
 
     const handleCreate = async () => {
         try {
-          await api.post(`/create`, {
+          const response = await api.post(`/create`, {
             title: title,
             description: description,
           })
 
-          navigate('/myprojects');
+          navigate(`/project/${response.data.id}?title=${encodeURIComponent(response.data.title)}`) ;
           
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
@@ -47,7 +47,7 @@ export default function CreateProject () {
           <label className="text-xl font-semibold">Title</label>
           <input
             value={title}
-            maxLength={40}
+            maxLength={30}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
             placeholder="Discussion title"

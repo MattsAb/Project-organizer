@@ -37,7 +37,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen text-black dark:text-white">
 
-      <div className={`w-full ${ assignments.length > 0 ? 'md:w-3/5' : 'w-full'}`}>
+      <div className={`w-full ${ assignments.length > 0 && 'md:w-3/5'}`}>
 
           <p className="font-semibold text-3xl flex items-center justify-center my-5">Pending Projects</p>
           <ErrorComponent message={errorMessage}/>
@@ -54,15 +54,11 @@ export default function Dashboard() {
       { assignments.length > 0 && (
       <div className="hidden md:flex md:w-2/5">
 
-        <div className="flex items-center">
-          <div className="w-px bg-rose-400 dark:bg-rose-600 h-7/8"></div>
-        </div>
-
         <div className="flex-1">
 
             <p className="font-semibold text-3xl flex items-center justify-center my-5">To do assignments</p>
   
-            <div className="mx-10">
+            <div className="mx-10 mt-10">
                 {assignments.length > 0 && (
                   assignments.map((assignment) => (
                     <DashboardAssignment key={assignment.id} {...assignment}/>

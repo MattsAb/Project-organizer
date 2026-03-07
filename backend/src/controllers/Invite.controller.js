@@ -52,8 +52,8 @@ export async function getNotifications(req, res) {
 
 export async function createInvite(req, res) {
 
-    const invitedUserId = Number(req.params.invitedUserId)
-    const projectId = Number(req.params.projectId)
+    const invitedUserId = req.params.invitedUserId;
+    const projectId = req.params.projectId;
 
     if(invitedUserId === req.userId)
     {
@@ -61,7 +61,7 @@ export async function createInvite(req, res) {
     }
 
     try {
-        const invite = await prisma.projectInvite.create({
+        await prisma.projectInvite.create({
         data: {
             invitedUserId: invitedUserId,
             invitedById: req.userId,
@@ -78,8 +78,8 @@ export async function createInvite(req, res) {
 
 export async function processInvite(req, res) {
 
-    const inviteId = Number(req.params.inviteId)
-    const projectId = Number(req.params.projectId)
+    const inviteId = req.params.inviteId;
+    const projectId = req.params.projectId;
 
     const process = req.query.process
 

@@ -37,7 +37,7 @@ export default function ActionButtons ({id, membership, title}: actionButtonsTyp
         const goToUserList = () => navigate(`/users/${id}`);
 
     return (
-        <div className="flex-1 mx-10 flex flex-col gap-10 my-10 max-w-[20%]">
+        <div className="flex-1-10 flex ml-5 flex-col gap-10 my-10 max-w-[20%]">
 
             <p className="font-semibold text-2xl"> actions</p>
             

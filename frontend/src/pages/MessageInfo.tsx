@@ -56,9 +56,9 @@ export default function MessageInfo() {
         <div>
             { messageInfo && (
             <div className="flex flex-col items-center justify-center gap-10">
-                <h1 className="text-2xl font-semibold mt-10"> {messageInfo?.description}</h1>
+                <h1 className="text-2xl text-center font-semibold mt-10 wrap-break-word w-full"> {messageInfo?.description}</h1>
 
-                <div className="bg-gray-50 dark:bg-slate-800 p-10 rounded-sm w-1/3">
+                <div className="bg-gray-50 dark:bg-slate-800 p-10 rounded-sm w-1/3 min-w-100">
                     <p className="wrap-break-word"> {messageInfo?.body} </p>
                     <p className="self-end font-semibold text-right mt-5"> by: {messageInfo?.sender.username}</p>
                 </div>

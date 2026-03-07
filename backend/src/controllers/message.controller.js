@@ -28,7 +28,7 @@ export async function getMessages(req, res) {
 
 export async function getMessageInfo(req, res) {
 
- const messageId = Number(req.params.id)
+ const messageId = req.params.id;
 
   try {
     await prisma.message.update({
@@ -63,7 +63,7 @@ export async function getMessageInfo(req, res) {
 
 export async function createMessage(req, res) {
 
-    const receiverId = Number(req.params.id)
+    const receiverId = req.params.id;
     const {body, description} = req.body;
 
     if(receiverId === req.userId)
@@ -90,7 +90,7 @@ export async function createMessage(req, res) {
 
 export async function deleteMessage(req, res) {
 
-    const messageId = Number(req.params.id)
+    const messageId = req.params.id;
 
     try {
         const message = await prisma.message.findUnique({

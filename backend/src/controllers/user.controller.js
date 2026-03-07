@@ -6,9 +6,6 @@ export async function loginUser (req, res)  {
 
     const { username, password } = req.body
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'username and password required' })
-    }
 
         try {
         const user = await prisma.user.findUnique({
@@ -34,10 +31,7 @@ export async function loginUser (req, res)  {
 export async function registerUser (req, res) {
 
     const { username, password, email } = req.body
-
-    if (!username || !password || !email) {
-        return res.status(400).json({ message: 'all fields are required' })
-    }
+    
     try {
         const hashedPassword = await bcrypt.hashSync(password, 8)
         const user = await prisma.user.create({

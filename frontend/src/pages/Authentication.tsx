@@ -40,7 +40,7 @@ export default function Authentication () {
             }
     }
     return (
-        <div className="flex flex-col items-center text-black dark:text-white">
+        <div className="flex flex-col items-center text-black dark:text-white mx-5">
 
             <h1 className="font-bold text-3xl my-5">{isRegistered ? 'Log In' : 'Sign Up'}</h1>
             
