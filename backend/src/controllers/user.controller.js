@@ -14,11 +14,11 @@ export async function loginUser (req, res)  {
             }
         })
 
-        if (!user) { return res.status(404).send({ message: "User not found" }) }
+        if (!user) { return res.status(404).json({ message: "User not found" }) }
 
         const passwordIsValid = bcrypt.compareSync(password, user.password)
 
-        if (!passwordIsValid) { return res.status(401).send({ message: "Invalid password" }) }
+        if (!passwordIsValid) { return res.status(401).json({ message: "Invalid password" }) }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
         res.status(200).json({ token })

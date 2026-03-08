@@ -273,7 +273,7 @@ export async function kickMember(req, res) {
 
     if (member.role === "OWNER")
     {
-      return res.status(403).json("Can't kick the Owner of the project")
+      return res.status(403).json({message: "Can't kick the Owner of the project"})
     }
 
     await prisma.projectMember.delete({

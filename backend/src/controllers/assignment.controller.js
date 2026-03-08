@@ -39,18 +39,6 @@ export async function createAssignment(req, res) {
   const { title, description, assignees, dueDate } = req.body
   const projectId = req.params.id
 
-  if (dueDate === null)
-  {
-    return res.status(400).json({success: false, message: "Please select a due date"})
-  }
-
-  if (!title || assignees.length === 0) {
-    return res.status(400).json({
-      success: false,
-      message: "invalid input"
-    })
-  }
-
   try {
     const assignment = await prisma.assignment.create({
       data: {
