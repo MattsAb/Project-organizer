@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import path from "path";
+import { fileURLToPath } from 'url'
 import cors from "cors"
 import userRouter from "./routes/userRoutes.js"
 import projectRouter from "./routes/projectRoutes.js"
@@ -12,8 +13,9 @@ import messageRouter from "./routes/messageRoutes.js"
 const app = express();
 export const PORT = process.env.PORT || 5000;
 
-const __dirname = path.resolve();
-const frontendPath = path.join(__dirname, "dist");
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const frontendPath = path.join(__dirname, '../dist')
 app.use(express.static(frontendPath));
 
 app.use(cors())
