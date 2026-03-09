@@ -19,13 +19,14 @@ const mockRequest = {
     }
 }
 
-const mockResponse = {
-  status: vi.fn().mockReturnThis(),
-  json: vi.fn().mockReturnThis()
-}
+let mockResponse
 
 beforeEach(() => {
   vi.clearAllMocks()
+  mockResponse = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+  }
 })
 
 describe("setprocess", () => {

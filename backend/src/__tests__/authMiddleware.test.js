@@ -2,11 +2,6 @@ import { describe, test, expect, vi, beforeEach } from 'vitest'
 import authMiddleware from '../middleware/auth'
 import jwt from "jsonwebtoken"
 
-const mockResponse = {
-  status: vi.fn().mockReturnThis(),
-  json: vi.fn().mockReturnThis()
-}
-
 const mockRequest = {
     headers: {
         authorization: 'Bearer SOMEJWTTOKEN'
@@ -15,10 +10,15 @@ const mockRequest = {
 
 const mockNext = vi.fn()
 
+let mockResponse
+
 beforeEach(() => {
   vi.clearAllMocks()
+  mockResponse = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+  }
 })
-
 describe("authMiddleware", () => {
 
     test('should attach userId to req and call next()', async () => {

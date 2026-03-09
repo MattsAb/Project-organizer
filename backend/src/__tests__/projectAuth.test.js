@@ -10,10 +10,6 @@ vi.mock('../prismaClient.js', () => ({
   }
 }))
 
-const mockResponse = {
-  status: vi.fn().mockReturnThis(),
-  json: vi.fn().mockReturnThis()
-}
 const mockNext = vi.fn()
 
 const mockRequest = {
@@ -21,8 +17,14 @@ const mockRequest = {
   params: { id: '1' }
 }
 
+let mockResponse
+
 beforeEach(() => {
   vi.clearAllMocks()
+  mockResponse = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+  }
 })
 
 describe('projectAuthMiddleware', () => {

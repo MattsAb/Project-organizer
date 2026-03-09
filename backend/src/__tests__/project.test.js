@@ -9,10 +9,10 @@ vi.mock('../prismaClient.js', () => ({
       findUnique: vi.fn().mockResolvedValue({})
     },
     project: {
-        findMany: vi.fn().mockResolvedValue({})
+        findMany: vi.fn().mockResolvedValue([])
     },
     assignment: {
-        findMany: vi.fn().mockResolvedValue({})
+        findMany: vi.fn().mockResolvedValue([])
     }
 }}))
 
@@ -23,13 +23,14 @@ const mockRequest = {
     }
 }
 
-const mockResponse = {
-  status: vi.fn().mockReturnThis(),
-  json: vi.fn().mockReturnThis()
-}
+let mockResponse
 
 beforeEach(() => {
   vi.clearAllMocks()
+  mockResponse = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+  }
 })
 
 describe("kickMember", () => {
@@ -70,7 +71,7 @@ describe("kickMember", () => {
 
         expect(mockResponse.status).toHaveBeenCalledWith(403);
         expect(mockResponse.json).toHaveBeenCalledWith({ message: "Can't kick the Owner of the project" })
-        expect(prisma.projectMember.findUnique).toBeCalledWith({
+        expect(prisma.projectMember.findUnique).toHaveBeenCalledWith({
             where: {id: mockRequest.params.memberId}
         })
         expect(prisma.projectMember.delete).not.toHaveBeenCalled()

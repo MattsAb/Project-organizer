@@ -16,13 +16,14 @@ const mockRequest = {
     params: { id: 1}
 }
 
-const mockResponse = {
-  status: vi.fn().mockReturnThis(),
-  json: vi.fn().mockReturnThis()
-}
+let mockResponse
 
 beforeEach(() => {
   vi.clearAllMocks()
+  mockResponse = {
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+  }
 })
 
 describe('getMessageInfo', () => {

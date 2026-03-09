@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ./src/server.js",
-    "test": "vitest"
+    "test": "vitest run src/__tests__",
+    "test:e2e": "vitest run src/e2e"
   },
   "keywords": [],
   "author": "",
